@@ -56,6 +56,16 @@
       <summary>Service Worker Logs</summary>
       <pre id="swLogs"></pre>
     </details>
+    <aside class="ui segment" style="margin-top:1em; background:#fffbe6; border:1px solid #ffe58f;">
+      <h3 class="ui header">Security Details</h3>
+      <ul class="ui list">
+        <li><strong>Secure Context:</strong> <span id="secureContextStatus"></span></li>
+        <li><strong>Cross-Origin-Isolated:</strong> <span id="crossOriginIsolatedStatus"></span></li>
+        <li><strong>COOP:</strong> <code>same-origin</code></li>
+        <li><strong>COEP:</strong> <code>require-corp</code></li>
+        <li><strong>CSP:</strong> <code>default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; worker-src 'self'; frame-src 'self';</code></li>
+      </ul>
+    </aside>
     <aside style="margin-top:1em; padding:1em; background:#f9f9f9; border:1px solid #ddd;">
       <h3>How it works</h3>
       <ul>
@@ -82,6 +92,16 @@
     }
     console.log('App loaded – secure context:', window.isSecureContext);
     console.log('Using fallback regex analyzer');
+    console.log('Cross-Origin-Isolated:', window.crossOriginIsolated);
+    console.log('COOP header:', document.querySelector("meta[http-equiv='Cross-Origin-Opener-Policy']").content);
+    console.log('COEP header:', document.querySelector("meta[http-equiv='Cross-Origin-Embedder-Policy']").content);
+    console.log('CSP header:', document.querySelector("meta[http-equiv='Content-Security-Policy']").content);
+
+    // Populate Security Details section
+    const secCtxEl = document.getElementById('secureContextStatus');
+    if (secCtxEl) secCtxEl.textContent = window.isSecureContext;
+    const coiEl = document.getElementById('crossOriginIsolatedStatus');
+    if (coiEl) coiEl.textContent = window.crossOriginIsolated;
     // Load example note when selected
     const exampleSelector = document.getElementById('exampleSelector');
     if (exampleSelector) {

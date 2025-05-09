@@ -25,7 +25,7 @@
     <form class="ui form" onsubmit="return false;">
       <div class="field">
         <label for="exampleSelector">Load Example Note</label>
-        <select id="exampleSelector" class="ui fluid dropdown">
+        <select id="exampleSelector" style="width:100%;" onchange="document.getElementById('note').value=this.value; console.log('Loaded example note:', this.value);">
           <option value="">-- Choose an example --</option>
           <option value="Our onboarding process feels confusing to new hires. It could use clearer steps and a dedicated mentor.">Onboarding Feedback</option>
           <option value="The product performance deteriorates under heavy load and needs optimization before the next release.">Performance Issue</option>
@@ -34,118 +34,28 @@
       </div>
       <div class="field">
         <label for="note">Your Note</label>
-        <textarea id="note" placeholder="Write your note here..."></textarea>
+        <textarea id="note" placeholder="Write your note here or select an example above..."></textarea>
       </div>
       <button id="analyzeBtn" type="button" class="ui primary button">AI Suggest</button>
     </form>
     <div id="suggestions" class="ui segment"></div>
-    <!-- How it works overview -->
-    <aside class="ui segment" style="margin-top:1em; background:#f9f9f9;">
-      <h3 class="ui header">How it works</h3>
-      <ul class="ui list">
-        <li>This demo runs entirely in your browser (no server).</li>
-        <li>We analyze your note with a simple keyword extractor (demo fallback) inside a sandboxed iframe.</li>
-        <li>A “toxicity score” is computed as a rough tags-to-words ratio.</li>
-        <li>All AI logic lives in an isolated iframe under a secure context (HTTPS/localhost) to prevent untrusted code from touching your page directly.</li>
-        <li>Logs and results show up here for transparency—and you can inspect performance or errors right on the page.</li>
-      </ul>
-    </aside>
     <div id="log" class="ui segment"></div>
     <!-- Service Worker Logs -->
     <details id="swLogsContainer" open>
       <summary>Service Worker Logs</summary>
       <pre id="swLogs"></pre>
     </details>
-    <aside class="ui segment" style="margin-top:1em; background:#fffbe6; border:1px solid #ffe58f;">
-      <h3 class="ui header">Security Details</h3>
-      <ul class="ui list">
-        <li><strong>Secure Context:</strong> <span id="secureContextStatus"></span></li>
-        <li><strong>Cross-Origin-Isolated:</strong> <span id="crossOriginIsolatedStatus"></span></li>
-        <li><strong>COOP:</strong> <code>same-origin</code></li>
-        <li><strong>COEP:</strong> <code>require-corp</code></li>
-        <li><strong>CSP:</strong> <code>default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; worker-src 'self'; frame-src 'self';</code></li>
-      </ul>
-    </aside>
-    <aside style="margin-top:1em; padding:1em; background:#f9f9f9; border:1px solid #ddd;">
-      <h3>How it works</h3>
-      <ul>
-        <li>This demo runs entirely in your browser (no server involvement).</li>
-        <li>We analyze your note in an isolated iframe and return results via postMessage.</li>
-        <li>A dummy toxicity score (tags-to-words ratio) is computed in the iframe.</li>
-        <li>All AI logic lives in a sandboxed iframe under a secure context.</li>
-        <li>Logs appear below so you can inspect console output right on the page.</li>
-      </ul>
-    </aside>
+    <!-- Interactive Security Demo -->
+    <section id="security-demo" class="ui segment" style="margin-top:1em;">
+      <h3 class="ui header">Interactive Security Demo</h3>
+      <button id="testNetworkBtn" class="ui button">Test Network Interception</button>
+      <button id="testMessageBtn" class="ui button">Test Message Isolation</button>
+      <div id="securityDemoResults" class="ui message" style="margin-top:1em;"></div>
+    </section>
 </div>
-  <!-- Inline analysis & logging script -->
-  <script>
-    // Mirror console.log to on-page #log container
-    const logDiv = document.getElementById('log');
-    if (logDiv) {
-      const origLog = console.log;
-      console.log = (...args) => {
-        origLog.apply(console, args);
-        const entry = document.createElement('div');
-        entry.textContent = args.join(' ');
-        logDiv.appendChild(entry);
-      };
-    }
-    console.log('App loaded – secure context:', window.isSecureContext);
-    console.log('Using fallback regex analyzer');
-    console.log('Cross-Origin-Isolated:', window.crossOriginIsolated);
-    console.log('COOP header:', document.querySelector("meta[http-equiv='Cross-Origin-Opener-Policy']").content);
-    console.log('COEP header:', document.querySelector("meta[http-equiv='Cross-Origin-Embedder-Policy']").content);
-    console.log('CSP header:', document.querySelector("meta[http-equiv='Content-Security-Policy']").content);
-
-    // Populate Security Details section
-    const secCtxEl = document.getElementById('secureContextStatus');
-    if (secCtxEl) secCtxEl.textContent = window.isSecureContext;
-    const coiEl = document.getElementById('crossOriginIsolatedStatus');
-    if (coiEl) coiEl.textContent = window.crossOriginIsolated;
-    // Load example note when selected
-    const exampleSelector = document.getElementById('exampleSelector');
-    if (exampleSelector) {
-      exampleSelector.addEventListener('change', () => {
-        const noteEl = document.getElementById('note');
-        noteEl.value = exampleSelector.value;
-        console.log('Loaded example note:', exampleSelector.value);
-      });
-    }
-    function analyzeNote(note) {
-      const tags = Array.from(new Set((note.match(/\b\w{5,}\b/g) || [])));
-      const summary = note.split('. ')[0] || '';
-      const words = note.trim().split(/\s+/).filter(w => w).length;
-      const toxicityScore = words ? Math.min(1, tags.length / words) : 0;
-      // Static action items for demonstration
-      const actions = [
-        'Rewrite your note as a tweet (≤280 chars)',
-        'Identify three action items',
-        'Generate two follow-up questions'
-      ];
-      console.log('Computed summary:', summary);
-      console.log('Computed tags:', tags);
-      console.log('Toxicity score:', (toxicityScore * 100).toFixed(1) + '%');
-      console.log('Action items:', actions);
-      return { summary, tags, toxicityScore, actions };
-    }
-    document.getElementById('analyzeBtn').addEventListener('click', () => {
-      const suggestionsEl = document.getElementById('suggestions');
-      if (suggestionsEl) suggestionsEl.innerHTML = '<p>Analyzing…</p>';
-      const note = document.getElementById('note').value;
-      console.log('AI Suggest clicked. Note:', note);
-      const { summary, tags, toxicityScore, actions } = analyzeNote(note);
-      // Build suggestions UI
-      const actionList = actions.map(a => `<li>${a}</li>`).join('');
-      document.getElementById('suggestions').innerHTML =
-        `<p><strong>Summary:</strong> ${summary}</p>` +
-        `<p><strong>Tags:</strong> ${tags.join(', ') || '—'}</p>` +
-        `<p><strong>Toxicity Score:</strong> ${(toxicityScore * 100).toFixed(1)}%</p>` +
-        `<p><strong>Action Items:</strong></p>` +
-        `<ul class="ui list">${actionList}</ul>` +
-        `<p><em>${window.isSecureContext
-          ? 'Running in secure context: isolation enabled.'
-          : 'Not in secure context: some features disabled.'}</em></p>`;
-    });
-  </script>
+<!-- Hidden AI sandbox iframe for processing -->
+<iframe id="aiFrame" src="ai-iframe.html" sandbox="allow-scripts allow-same-origin" hidden></iframe>
+<!-- Main application logic -->
+<script type="module" src="/src/main.js"></script>
 </body>
 </html>

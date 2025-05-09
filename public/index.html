@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SecureAI Notes</title>
+  <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+  <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+  <meta http-equiv="Permissions-Policy" content="cross-origin-isolated">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; worker-src 'self'; frame-src 'self';">
+</head>
+<body>
+  <h1>SecureAI Notes</h1>
+  <textarea id="note" rows="10" cols="50" placeholder="Write your note here..."></textarea>
+  <br>
+  <button id="analyzeBtn">AI Suggest</button>
+  <div id="suggestions"></div>
+  <iframe id="aiFrame" src="ai-iframe.html" sandbox="allow-scripts"></iframe>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

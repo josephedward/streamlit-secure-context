@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "bash run-app.sh",
-    "test": "node --test",
+    "test": "jest",
     "screenshots": "node screenshot.js",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
@@ -15,5 +15,11 @@
     "jest": "^29.7.0",
     "puppeteer": "^20.7.0",
     "jsdom": "^22.1.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "**/src/**/*.test.js"
+    ]
   }
 }

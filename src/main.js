@@ -32,6 +32,7 @@ analyzeBtn.addEventListener('click', () => {
 window.addEventListener('message', (event) => {
   console.log('Received message in main window:', event);
   console.log('Message origin and data type:', event.origin, event.data && event.data.type);
+  console.log('Main window message data detailed:', JSON.stringify(event.data));
   if (event.origin !== window.location.origin) {
     console.warn('Ignored message from unknown origin:', event.origin);
     return;
@@ -51,6 +52,7 @@ window.addEventListener('message', (event) => {
       html += `<p><small>Model Load: ${metrics.loadMs.toFixed(0)} ms | Inference: ${metrics.inferenceMs.toFixed(0)} ms | Classification: ${metrics.toxicityMs ? metrics.toxicityMs.toFixed(0) + ' ms' : 'n/a'} | Confidence: ${metrics.confidence.toFixed(2)}</small></p>`;
     }
     suggestionsDiv.innerHTML = html;
+    console.log('SuggestionsDiv innerHTML updated:', suggestionsDiv.innerHTML);
     console.log('Updated suggestions DOM with metrics');
   }
 });

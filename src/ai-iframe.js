@@ -48,6 +48,7 @@ window.addEventListener('message', async (event) => {
     }
   }
   const note = event.data.note;
+  console.log('AI iframe note content:', note);
   let summary;
   let tags;
   const metrics = {};

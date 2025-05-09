@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "build": "cp -R public dist",
     "start": "bash run-app.sh",
     "test": "node --test",
     "test:e2e": "playwright test",

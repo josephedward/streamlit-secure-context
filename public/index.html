@@ -3,18 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <title>SecureAI Notes</title>
+  <link rel="icon" href="data:,">
+  <!-- Secure and isolated context -->
   <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
   <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
   <meta http-equiv="Permissions-Policy" content="cross-origin-isolated">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; worker-src 'self'; frame-src 'self';">
+  <!-- Application Styles -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <!-- App Styles -->
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <h1>SecureAI Notes</h1>
-  <textarea id="note" rows="10" cols="50" placeholder="Write your note here..."></textarea>
-  <br>
-  <button id="analyzeBtn">AI Suggest</button>
+  <div class="container">
+    <header>
+      <h1>SecureAI Notes</h1>
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme">🌓</button>
+    </header>
+    <textarea id="note" placeholder="Write your note here..."></textarea>
+    <button id="analyzeBtn">AI Suggest</button>
   <div id="suggestions"></div>
-  <iframe id="aiFrame" src="ai-iframe.html" sandbox="allow-scripts"></iframe>
+  <div id="log"></div>
+    <!-- Service Worker Logs -->
+    <details id="swLogsContainer" open>
+      <summary>Service Worker Logs</summary>
+      <pre id="swLogs"></pre>
+    </details>
+  </div>
+  <iframe id="aiFrame" src="ai-iframe.html" sandbox="allow-scripts allow-same-origin"></iframe>
+  <!-- Loading Overlay -->
+  <div id="loading" class="loading-overlay" hidden>
+    <div class="spinner"></div>
+  </div>
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

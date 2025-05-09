@@ -5,5 +5,7 @@
   "scripts": {
     "test": "node --test"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "cypress": "^14.3.3"
+  }
 }

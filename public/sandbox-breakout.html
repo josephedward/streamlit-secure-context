@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sandbox Breakout Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding:1em; }
+    #breakoutBtn { padding:0.5em 1em; margin-top:1em; }
+  </style>
+</head>
+<body>
+  <p>This iframe is sandboxed. Attempts to access the parent DOM should fail or be blocked.</p>
+  <button id="breakoutBtn">Try to Modify Parent</button>
+  <script>
+    document.getElementById('breakoutBtn').addEventListener('click', () => {
+      try {
+        // attempt to modify parent
+        parent.document.body.style.border = '5px solid red';
+        parent.postMessage({ type: 'sandbox-result', success: true }, '*');
+      } catch (e) {
+        parent.postMessage({ type: 'sandbox-result', success: false }, '*');
+      }
+    });
+  </script>
+</body>
+</html>

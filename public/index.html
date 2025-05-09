@@ -51,6 +51,11 @@
       <button id="testNetworkBtn" class="ui button">Test Network Interception</button>
       <button id="testMessageBtn" class="ui button">Test Message Isolation</button>
       <div id="securityDemoResults" class="ui message" style="margin-top:1em;"></div>
+      <div class="ui segment" style="margin-top:1em; border:2px dashed #ff3333; background:#fff7f7;">
+        <h4 class="ui header">Sandbox Breakout Test</h4>
+        <p>Click the button inside the iframe below to see whether it can modify the parent page:</p>
+        <iframe id="demoIframe" sandbox="allow-scripts" src="/sandbox-breakout.html" style="width:100%; height:200px; border:1px solid #ccc;"></iframe>
+      </div>
     </section>
 </div>
 <!-- Hidden AI sandbox iframe for processing -->

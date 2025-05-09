@@ -1,6 +1,9 @@
 // Extensive logging enabled
 console.log('App initialization started');
+// Main script loaded for debugging
+console.log('main.js loaded');
 // Register secure service worker for AI-powered security
+console.log('Checking service worker support and secure context');
 if ('serviceWorker' in navigator && window.isSecureContext) {
   console.log('Registering service worker: /ai-security-sw.js');
   navigator.serviceWorker.register('/ai-security-sw.js')
@@ -17,19 +20,24 @@ const aiFrame = document.getElementById('aiFrame');
 const suggestionsDiv = document.getElementById('suggestions');
 
 analyzeBtn.addEventListener('click', () => {
-  console.log('Analyze button clicked. Note:', noteArea.value);
+  // Show simple loading state\n  if (suggestionsDiv) suggestionsDiv.innerHTML = '<p>Analyzing…</p>'\n  console.log('Analyze button clicked. Note:', noteArea.value);
   aiFrame.contentWindow.postMessage({
     type: 'analyze',
     note: noteArea.value
   }, window.location.origin);
   console.log('Posted analyze message to AI iframe');
+  console.log('Analyze message payload:', { type: 'analyze', note: noteArea.value });
 });
 
 window.addEventListener('message', (event) => {
   console.log('Received message in main window:', event);
+  console.log('Message origin and data type:', event.origin, event.data && event.data.type);
   if (event.origin !== window.location.origin) {
     console.warn('Ignored message from unknown origin:', event.origin);
     return;
+  }
+  else {
+    console.warn('Ignored message with unsupported type:', event.data && event.data.type);
   }
   if (event.data.type === 'suggestions') {
     console.log('Processing suggestions:', event.data);
@@ -38,7 +46,8 @@ window.addEventListener('message', (event) => {
       <p><strong>Summary:</strong> ${summary}</p>
       <p><strong>Tags:</strong> ${tags.join(', ')}</p>
     `;
-    if (metrics) {
+    // Only display performance metrics if available (loadMs defined)
+    if (metrics.loadMs != null) {
       html += `<p><small>Model Load: ${metrics.loadMs.toFixed(0)} ms | Inference: ${metrics.inferenceMs.toFixed(0)} ms | Classification: ${metrics.toxicityMs ? metrics.toxicityMs.toFixed(0) + ' ms' : 'n/a'} | Confidence: ${metrics.confidence.toFixed(2)}</small></p>`;
     }
     suggestionsDiv.innerHTML = html;

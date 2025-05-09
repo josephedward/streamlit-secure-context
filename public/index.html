@@ -8,7 +8,7 @@
   <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
   <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
   <meta http-equiv="Permissions-Policy" content="cross-origin-isolated">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; worker-src 'self'; frame-src 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://storage.googleapis.com; connect-src 'self' https://storage.googleapis.com https://example.com; style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; worker-src 'self'; frame-src 'self';">
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <!-- Semantic UI CSS -->
@@ -25,8 +25,9 @@
     <form class="ui form" onsubmit="return false;">
       <div class="field">
         <label for="exampleSelector">Load Example Note</label>
-        <select id="exampleSelector" style="width:100%;" onchange="document.getElementById('note').value=this.value; console.log('Loaded example note:', this.value);">
-          <option value="">-- Choose an example --</option>
+        <!-- Example selector: pick an example note to auto-fill below -->
+        <select id="exampleSelector" style="width:100%;">
+          <option value="" disabled selected>-- Choose an example --</option>
           <option value="Our onboarding process feels confusing to new hires. It could use clearer steps and a dedicated mentor.">Onboarding Feedback</option>
           <option value="The product performance deteriorates under heavy load and needs optimization before the next release.">Performance Issue</option>
           <option value="We delivered the project on time, but client testing found minor UI bugs that we should schedule fixes for.">Project Summary</option>
@@ -51,16 +52,11 @@
       <button id="testNetworkBtn" class="ui button">Test Network Interception</button>
       <button id="testMessageBtn" class="ui button">Test Message Isolation</button>
       <div id="securityDemoResults" class="ui message" style="margin-top:1em;"></div>
-      <div class="ui segment" style="margin-top:1em; border:2px dashed #ff3333; background:#fff7f7;">
-        <h4 class="ui header">Sandbox Breakout Test</h4>
-        <p>Click the button inside the iframe below to see whether it can modify the parent page:</p>
-        <iframe id="demoIframe" sandbox="allow-scripts" src="/sandbox-breakout.html" style="width:100%; height:200px; border:1px solid #ccc;"></iframe>
-      </div>
     </section>
-</div>
-<!-- Hidden AI sandbox iframe for processing -->
-<iframe id="aiFrame" src="ai-iframe.html" sandbox="allow-scripts allow-same-origin" hidden></iframe>
-<!-- Main application logic -->
-<script type="module" src="/src/main.js"></script>
+  </div>
+  <!-- Hidden AI sandbox iframe for processing -->
+  <iframe id="aiFrame" src="/ai-iframe.html" sandbox="allow-scripts allow-same-origin" hidden></iframe>
+  <!-- Main application logic -->
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>

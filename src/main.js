@@ -61,6 +61,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const analyzeBtn = document.getElementById('analyzeBtn');
   const noteArea = document.getElementById('note');
+  const exampleSelector = document.getElementById('exampleSelector');
+  if (exampleSelector && noteArea) {
+    exampleSelector.addEventListener('change', () => {
+      noteArea.value = exampleSelector.value;
+      console.log('Example note loaded:', noteArea.value);
+    });
+  }
   const suggestionsDiv = document.getElementById('suggestions');
   const aiFrame = document.getElementById('aiFrame');
   // Wire up example note loader dropdown

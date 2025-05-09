@@ -51,18 +51,13 @@ if (analyzeBtn && noteArea && aiFrame) {
 
 // Receive suggestions
 window.addEventListener('message', (event) => {
-  console.log('Main window received message:', event.data);
-  if (event.origin !== window.location.origin) return;
-  if (event.data.type === 'suggestions') {
-    const { summary, tags, toxicityScore, contextInfo } = event.data;
-    let html = `
-      <p><strong>Summary:</strong> ${summary}</p>
-      <p><strong>Tags:</strong> ${tags.join(', ') || '—'}</p>
-      <p><strong>Toxicity Score:</strong> ${toxicityScore.toFixed(2)}</p>
-      <p><em>${contextInfo}</em></p>
-    `;
-    suggestionsDiv.innerHTML = html;
-    analyzeBtn.disabled = false;
-    analyzeBtn.textContent = 'AI Suggest';
-  }
+  if (event.data.type !== 'suggestions') return;
+
+  const { summary, tags, toxicityScore, contextInfo } = event.data;
+  let html = `
+    <p><strong>Summary:</strong> ${summary}</p>
+    <p><strong>Tags:</strong> ${tags.join(', ') || '—'}</p>
+    <p><strong>Toxicity Score:</strong> ${toxicityScore.toFixed(2)}</p>
+    <p><em>${contextInfo}</em></p>`;
+  document.getElementById('suggestions').innerHTML = html;
 });

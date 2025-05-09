@@ -39,7 +39,7 @@ window.addEventListener('message', (event) => {
       <p><strong>Tags:</strong> ${tags.join(', ')}</p>
     `;
     if (metrics) {
-      html += `<p><small>Model Load: ${metrics.loadMs.toFixed(0)} ms | Inference: ${metrics.inferenceMs.toFixed(0)} ms | Classification: ${metrics.toxicityMs ? metrics.toxicityMs.toFixed(0) + ' ms' : 'n/a'}</small></p>`;
+      html += `<p><small>Model Load: ${metrics.loadMs.toFixed(0)} ms | Inference: ${metrics.inferenceMs.toFixed(0)} ms | Classification: ${metrics.toxicityMs ? metrics.toxicityMs.toFixed(0) + ' ms' : 'n/a'} | Confidence: ${metrics.confidence.toFixed(2)}</small></p>`;
     }
     suggestionsDiv.innerHTML = html;
     console.log('Updated suggestions DOM with metrics');

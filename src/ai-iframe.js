@@ -60,6 +60,7 @@ window.addEventListener('message', async (event) => {
     metrics.inferenceMs = performance.now() - infStart;
     metrics.loadMs = modelMetrics.loadMs;
     summary = results[0].summary_text;
+    metrics.confidence = results[0].score;
     console.log('Summarization complete:', summary, 'inferenceMs:', metrics.inferenceMs);
   } else {
     console.log('Summarizer unavailable, using basic analyzer');

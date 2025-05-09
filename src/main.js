@@ -37,9 +37,7 @@ window.addEventListener('message', (event) => {
     console.warn('Ignored message from unknown origin:', event.origin);
     return;
   }
-  else {
-    console.warn('Ignored message with unsupported type:', event.data && event.data.type);
-  }
+  console.log('Accepted message origin:', event.origin);
   if (event.data.type === 'suggestions') {
     console.log('Processing suggestions:', event.data);
     const { summary, tags, metrics } = event.data;
@@ -54,5 +52,7 @@ window.addEventListener('message', (event) => {
     suggestionsDiv.innerHTML = html;
     console.log('SuggestionsDiv innerHTML updated:', suggestionsDiv.innerHTML);
     console.log('Updated suggestions DOM with metrics');
+  } else {
+    console.warn('Ignored message with unsupported type:', event.data && event.data.type);
   }
 });

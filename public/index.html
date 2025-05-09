@@ -8,41 +8,65 @@
   <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
   <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
   <meta http-equiv="Permissions-Policy" content="cross-origin-isolated">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; worker-src 'self'; frame-src 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; worker-src 'self'; frame-src 'self';">
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <!-- App Styles (uncomment to enable custom CSS) -->
-  <!-- <link rel="stylesheet" href="/style.css"> -->
-  <!-- Simplify visuals: disable loading overlay and spinner -->
-  <style>
-    .loading-overlay,
-    .loading-overlay .spinner {
-      display: none !important;
-    }
-  </style>
+  <!-- Semantic UI CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+  <!-- App Custom Styles -->
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <div class="container">
+  <div class="ui container">
     <header>
-      <h1>SecureAI Notes</h1>
-      <button id="themeToggle" class="theme-toggle" title="Toggle theme">🌓</button>
+      <h1 class="ui header">SecureAI Notes</h1>
+      <button id="themeToggle" class="ui icon button" title="Toggle theme"><i class="moon icon"></i></button>
     </header>
-    <textarea id="note" placeholder="Write your note here..."></textarea>
-    <button id="analyzeBtn">AI Suggest</button>
-  <div id="suggestions"></div>
-  <div id="log"></div>
+    <form class="ui form" onsubmit="return false;">
+      <div class="field">
+        <label for="note">Your Note</label>
+        <textarea id="note" placeholder="Write your note here..."></textarea>
+      </div>
+      <button id="analyzeBtn" type="button" class="ui primary button">AI Suggest</button>
+    </form>
+    <div id="suggestions" class="ui segment"></div>
+    <div id="log" class="ui segment"></div>
     <!-- Service Worker Logs -->
     <details id="swLogsContainer" open>
       <summary>Service Worker Logs</summary>
       <pre id="swLogs"></pre>
     </details>
   </div>
-  <iframe id="aiFrame" src="ai-iframe.html" sandbox="allow-scripts allow-same-origin"></iframe>
-  <!-- Loading Overlay -->
-  <div id="loading" class="loading-overlay" hidden>
-    <div class="spinner"></div>
-  </div>
-  <!-- import main JS module -->
-  <script type="module" src="/src/main.js"></script>
+  <!-- Inline analysis and logging -->
+  <script>
+    // Basic logger: mirror console.log into page
+    const logDiv = document.getElementById('log');
+    if (logDiv) {
+      const origLog = console.log;
+      console.log = (...args) => {
+        origLog.apply(console, args);
+        const entry = document.createElement('div');
+        entry.textContent = args.join(' ');
+        logDiv.appendChild(entry);
+      };
+    }
+    console.log('App loaded in secure context:', window.isSecureContext);
+    console.log('Using regex analyzer for summary (first sentence) and 5+ letter tags');
+    function analyzeNote(note) {
+      const tags = Array.from(new Set(note.match(/\b\w{5,}\b/g) || []));
+      const summary = note.split('. ')[0] || '';
+      console.log('Summary:', summary);
+      console.log('Tags:', tags);
+      return { summary, tags };
+    }
+    document.getElementById('analyzeBtn').addEventListener('click', () => {
+      const note = document.getElementById('note').value;
+      console.log('AI Suggest clicked. Note:', note);
+      const { summary, tags } = analyzeNote(note);
+      document.getElementById('suggestions').innerHTML =
+        `<p><strong>Summary:</strong> ${summary}</p>` +
+        `<p><strong>Tags:</strong> ${tags.join(', ')}</p>`;
+    });
+  </script>
 </body>
 </html>

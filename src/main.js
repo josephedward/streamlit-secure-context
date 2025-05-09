@@ -51,20 +51,29 @@ if (analyzeBtn && noteArea && aiFrame) {
 
 // Receive suggestions
 window.addEventListener('message', (event) => {
+  console.log('Main window received message:', event.data);
   // Handle Service Worker logs
   if (event.data.type === 'sw-log') {
     const sw = document.getElementById('swLogs');
-    if (sw) { sw.textContent += event.data.message + '
-'; sw.scrollTop = sw.scrollHeight; }
+    if (sw) { sw.textContent += event.data.message + '\n'; sw.scrollTop = sw.scrollHeight; }
+    return;
+  }
+  console.log('Main window origin and type:', event.origin, event.data && event.data.type);
+  if (event.origin !== window.location.origin) {
+    console.warn('Ignored message from unknown origin:', event.origin);
     return;
   }
   if (event.data.type !== 'suggestions') return;
 
   const { summary, tags, toxicityScore, contextInfo } = event.data;
+  console.log('Suggestions payload unpacked:', { summary, tags, toxicityScore, contextInfo });
   let html = `
     <p><strong>Summary:</strong> ${summary}</p>
     <p><strong>Tags:</strong> ${tags.join(', ') || '—'}</p>
     <p><strong>Toxicity Score:</strong> ${toxicityScore.toFixed(2)}</p>
     <p><em>${contextInfo}</em></p>`;
-  document.getElementById('suggestions').innerHTML = html;
+  suggestionsDiv.innerHTML = html;
+  analyzeBtn.disabled = false;
+  analyzeBtn.textContent = 'AI Suggest';
+  console.log('Updated suggestions segment, reset analyze button');
 });

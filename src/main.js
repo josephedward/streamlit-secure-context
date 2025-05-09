@@ -70,13 +70,23 @@ window.addEventListener('DOMContentLoaded', () => {
   }
   const suggestionsDiv = document.getElementById('suggestions');
   const aiFrame = document.getElementById('aiFrame');
-  // Wire up example note loader dropdown
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Example-note loader: when the user picks an example, populate the textarea
+  // and clear out the old AI suggestions.
+  // ─────────────────────────────────────────────────────────────────────────────
   const exampleSelector = document.getElementById('exampleSelector');
   if (exampleSelector && noteArea && suggestionsDiv) {
     exampleSelector.addEventListener('change', () => {
-      console.log('Loading example note:', exampleSelector.value);
+      console.log('Example note selected:', exampleSelector.value);
       noteArea.value = exampleSelector.value;
+
+      // Wipe the previous suggestions so it's crystal clear we're looking at
+      // a fresh analysis once the user clicks "AI Suggest" next.
       suggestionsDiv.innerHTML = '';
+
+      // Re-enable the button in case it was disabled
+      analyzeBtn.disabled = false;
+      analyzeBtn.textContent = 'AI Suggest';
     });
   }
 

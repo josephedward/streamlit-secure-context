@@ -36,6 +36,16 @@
       <summary>Service Worker Logs</summary>
       <pre id="swLogs"></pre>
     </details>
+    <aside style="margin-top:1em; padding:1em; background:#f9f9f9; border:1px solid #ddd;">
+      <h3>How it works</h3>
+      <ul>
+        <li>This demo runs entirely in your browser (no server).</li>
+        <li>We analyze your note with a simple keyword extractor (demo fallback).</li>
+        <li>We compute a “toxicity score” as a rough tags-to-words ratio.</li>
+        <li>All AI logic lives in an isolated iframe under a secure context (HTTPS/localhost) to prevent any untrusted code from touching your page directly.</li>
+        <li>Logs and scores show up here for transparency—and you can inspect performance or errors right in the page.</li>
+      </ul>
+    </aside>
   </div>
   <!-- Inline analysis and logging -->
   <script>

@@ -1,58 +1,68 @@
-// Extensive logging enabled
+// Override console methods to also log to on-page log container
+(() => {
+  if (typeof document.getElementById !== 'function') return;
+  const logContainer = document.getElementById('log');
+  if (!logContainer) return;
+  const origLog = console.log;
+  const origWarn = console.warn;
+  const origError = console.error;
+  console.log = (...args) => { origLog.apply(console, args); const d = document.createElement('div'); d.textContent = args.join(' '); logContainer.appendChild(d); };
+  console.warn = (...args) => { origWarn.apply(console, args); const d = document.createElement('div'); d.style.color='orange'; d.textContent = args.join(' '); logContainer.appendChild(d); };
+  console.error = (...args) => { origError.apply(console, args); const d = document.createElement('div'); d.style.color='red'; d.textContent = args.join(' '); logContainer.appendChild(d); };
+})();
+
 console.log('App initialization started');
-// Main script loaded for debugging
-console.log('main.js loaded');
-// Register secure service worker for AI-powered security
-console.log('Checking service worker support and secure context');
-if ('serviceWorker' in navigator && window.isSecureContext) {
-  console.log('Registering service worker: /ai-security-sw.js');
-  navigator.serviceWorker.register('/ai-security-sw.js')
-    .then(registration => console.log('Service worker registered with scope:', registration.scope))
-    .catch(error => console.error('Service worker registration failed:', error));
-} else {
-  console.warn('Service worker not supported or not in secure context');
+
+// Theme toggle (light/dark)
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+  });
 }
 
-// Send note to isolated AI iframe for processing
+// Register service worker for security monitoring
+if ('serviceWorker' in navigator && window.isSecureContext) {
+  console.log('Registering service worker');
+  navigator.serviceWorker.register('/ai-security-sw.js')
+    .then(reg => console.log('SW scope:', reg.scope))
+    .catch(err => console.error('SW registration failed:', err));
+} else {
+  console.warn('Service worker unsupported or insecure context');
+}
+
+// Main elements
 const analyzeBtn = document.getElementById('analyzeBtn');
 const noteArea = document.getElementById('note');
-const aiFrame = document.getElementById('aiFrame');
 const suggestionsDiv = document.getElementById('suggestions');
+const aiFrame = document.getElementById('aiFrame');
 
-analyzeBtn.addEventListener('click', () => {
-  // Show simple loading state\n  if (suggestionsDiv) suggestionsDiv.innerHTML = '<p>Analyzing…</p>'\n  console.log('Analyze button clicked. Note:', noteArea.value);
-  aiFrame.contentWindow.postMessage({
-    type: 'analyze',
-    note: noteArea.value
-  }, window.location.origin);
-  console.log('Posted analyze message to AI iframe');
-  console.log('Analyze message payload:', { type: 'analyze', note: noteArea.value });
-});
+// Click handler
+if (analyzeBtn && noteArea && aiFrame) {
+  analyzeBtn.addEventListener('click', () => {
+    console.log('Analyze button clicked. Note:', noteArea.value);
+    // Show simple loading state
+    suggestionsDiv.innerHTML = '<p>Analyzing…</p>';
+    analyzeBtn.disabled = true;
+    analyzeBtn.textContent = 'Analyzing…';
+    aiFrame.contentWindow.postMessage({ type: 'analyze', note: noteArea.value }, window.location.origin);
+  });
+}
 
+// Receive suggestions
 window.addEventListener('message', (event) => {
-  console.log('Received message in main window:', event);
-  console.log('Message origin and data type:', event.origin, event.data && event.data.type);
-  console.log('Main window message data detailed:', JSON.stringify(event.data));
-  if (event.origin !== window.location.origin) {
-    console.warn('Ignored message from unknown origin:', event.origin);
-    return;
-  }
-  console.log('Accepted message origin:', event.origin);
+  console.log('Main window received message:', event.data);
+  if (event.origin !== window.location.origin) return;
   if (event.data.type === 'suggestions') {
-    console.log('Processing suggestions:', event.data);
-    const { summary, tags, metrics } = event.data;
+    const { summary, tags, toxicityScore, contextInfo } = event.data;
     let html = `
       <p><strong>Summary:</strong> ${summary}</p>
-      <p><strong>Tags:</strong> ${tags.join(', ')}</p>
+      <p><strong>Tags:</strong> ${tags.join(', ') || '—'}</p>
+      <p><strong>Toxicity Score:</strong> ${toxicityScore.toFixed(2)}</p>
+      <p><em>${contextInfo}</em></p>
     `;
-    // Only display performance metrics if available (loadMs defined)
-    if (metrics.loadMs != null) {
-      html += `<p><small>Model Load: ${metrics.loadMs.toFixed(0)} ms | Inference: ${metrics.inferenceMs.toFixed(0)} ms | Classification: ${metrics.toxicityMs ? metrics.toxicityMs.toFixed(0) + ' ms' : 'n/a'} | Confidence: ${metrics.confidence.toFixed(2)}</small></p>`;
-    }
     suggestionsDiv.innerHTML = html;
-    console.log('SuggestionsDiv innerHTML updated:', suggestionsDiv.innerHTML);
-    console.log('Updated suggestions DOM with metrics');
-  } else {
-    console.warn('Ignored message with unsupported type:', event.data && event.data.type);
+    analyzeBtn.disabled = false;
+    analyzeBtn.textContent = 'AI Suggest';
   }
 });

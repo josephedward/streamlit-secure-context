@@ -51,6 +51,13 @@ if (analyzeBtn && noteArea && aiFrame) {
 
 // Receive suggestions
 window.addEventListener('message', (event) => {
+  // Handle Service Worker logs
+  if (event.data.type === 'sw-log') {
+    const sw = document.getElementById('swLogs');
+    if (sw) { sw.textContent += event.data.message + '
+'; sw.scrollTop = sw.scrollHeight; }
+    return;
+  }
   if (event.data.type !== 'suggestions') return;
 
   const { summary, tags, toxicityScore, contextInfo } = event.data;

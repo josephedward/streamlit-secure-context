@@ -10,8 +10,8 @@ version=$1
 # 1) Prepare frontend build (must exist under frontend/build); if missing, build it
 echo "[1/4] Preparing frontend build..."
 if [ ! -d "frontend/build" ]; then
-  echo "[1/4] Frontend build not found, running npm install & build..."
-  (cd frontend && npm link streamlit-component-lib || { echo "ERROR: streamlit-component-lib CLI not linked. Build the CLI and run 'npm link streamlit-component-lib'."; exit 1; } && npm install && npm run build)
+  echo "ERROR: frontend/build not found. Please run 'cd frontend && npm install && npm run build', then commit frontend/build to your repo."
+  exit 1
 fi
 rm -rf streamlit_secure_context/frontend
 mkdir -p streamlit_secure_context/frontend

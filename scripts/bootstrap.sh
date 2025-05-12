@@ -4,11 +4,10 @@ set -euo pipefail
 # Script to build the frontend and install the Python component locally
 HERE="$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/..\" && pwd)"
 
-echo "[bootstrap] Building frontend..."
-cd "$HERE/frontend"
-npm link streamlit-component-lib || { echo "ERROR: streamlit-component-lib CLI not linked. Build the CLI and run 'npm link streamlit-component-lib'."; exit 1; }
-npm install
-npm run build
+if [ ! -d "$HERE/frontend/build" ]; then
+  echo "ERROR: frontend/build not found. Please run 'cd frontend && npm install && npm run build', then commit frontend/build to your repo."
+  exit 1
+fi
 
 echo "[bootstrap] Copying frontend build assets into Python package..."
     rm -rf "$HERE/streamlit_secure_context/frontend"

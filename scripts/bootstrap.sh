@@ -8,14 +8,15 @@ echo "[bootstrap] Building frontend..."
 cd "$HERE/frontend"
 # Ensure the upstream streamlit-component-lib CLI is available for build/start
 if ! command -v streamlit-component-lib &>/dev/null; then
-  echo "[bootstrap] streamlit-component-lib CLI not found; linking local CLI from Streamlit repo..."
+  echo "[bootstrap] streamlit-component-lib CLI not found; installing via tarball from upstream monorepo..."
   TMPDIR=$(mktemp -d)
   git clone https://github.com/streamlit/streamlit.git "$TMPDIR"
   cd "$TMPDIR/packages/frontend/streamlit-component-lib"
   npm install
-  npm link
+  npm pack
+  mv streamlit-component-lib-*.tgz "$HERE/frontend/"
   cd "$HERE/frontend"
-  npm link streamlit-component-lib
+  npm install ./streamlit-component-lib-*.tgz
 fi
 npm install
 npm run build

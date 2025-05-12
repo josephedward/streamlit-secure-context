@@ -53,12 +53,25 @@ recursive-include streamlit_secure_context/frontend/build *
 
 ## 4. Bundle frontend assets in the Python package
 Ensure the built React assets are copied into the Python package before installation.
-Update `scripts/bootstrap.sh` to include:
+ Update `scripts/bootstrap.sh` to include:
 ```bash
+# Ensure the real CLI is available (the npm package v2.0.0 omits it):
+if ! command -v streamlit-component-lib &>/dev/null; then
+  # Clone Streamlit monorepo and link the component-lib package
+  TMPDIR=$(mktemp -d)
+  git clone https://github.com/streamlit/streamlit.git "$TMPDIR"
+  cd "$TMPDIR/packages/frontend/streamlit-component-lib"
+  npm install && npm link
+  cd "$HERE/frontend"
+  npm link streamlit-component-lib
+fi
+
 # After npm run build in frontend/
 rm -rf streamlit_secure_context/frontend/build
 cp -r frontend/build streamlit_secure_context/frontend/
 ```
+
+Note: The published `streamlit-component-lib` (2.0.0) on npm does not ship the build/start CLI. The updated bootstrap script now automatically pulls and links the upstream CLI before building.
 
 ## 5. Release script
 Create `scripts/release.sh`:

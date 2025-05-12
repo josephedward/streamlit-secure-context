@@ -1,6 +1,6 @@
- from setuptools import setup, find_packages
+from setuptools import setup, find_packages
 
- setup(
+setup(
     name="streamlit-secure-context",
      version="0.1.1",
      packages=find_packages(),

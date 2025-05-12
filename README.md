@@ -114,10 +114,3 @@ To deploy in a HIPAA-compliant environment and minimize ePHI exposure:
 - Device security: Ensure end-user devices have disk encryption, updated browsers, and adhere to your organizational security policies.
 
 By running inference entirely in the user’s browser and enforcing strict security policies, you minimize ePHI exposure and simplify HIPAA compliance.
-
-
-## Next Steps
-1. Integrate real model loading and inference in `worker.js`.
-2. Extend the Python API for parameter validation and error handling.
-3. Customize CSP directives and sandbox flags per your deployment requirements.
-4. Add unit and integration tests with Jest and Cypress.

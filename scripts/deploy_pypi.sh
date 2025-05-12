@@ -10,7 +10,7 @@ version=$1
 # 1) Prepare frontend build (must exist under frontend/build); if missing, build it
 echo "[1/4] Preparing frontend build..."
 if [ ! -d "frontend/build" ]; then
-  echo "ERROR: frontend/build not found. Please run 'cd frontend && npm install && npm run build', then commit frontend/build to your repo."
+  echo "ERROR: frontend/build not found. Please add a prebuilt frontend/build directory to your repo and commit it."
   exit 1
 fi
 rm -rf streamlit_secure_context/frontend

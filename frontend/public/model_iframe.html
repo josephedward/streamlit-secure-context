@@ -1,0 +1,49 @@
+ <!DOCTYPE html>
+ <html lang="en">
+  <head>
+   <meta charset="UTF-8">
+   <!-- Enforce Cross-Origin Embedder and Opener Policies for isolation -->
+   <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+   <!-- Allow Same-Origin Opener to isolate this iframe -->
+   <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Secure ML Iframe</title>
+ </head>
+ <body>
+ <!-- Iframe script: handles init/infer messages and proxies to Web Worker -->
+ <script>
+   // Parse URL query parameters into an object
+   function parseQuery() {
+     const params = {};
+     location.search.slice(1).split('&').forEach((part) => {
+       const [key, value] = part.split('=');
+       params[decodeURIComponent(key)] = decodeURIComponent(value);
+     });
+     return params;
+   }
+   const params = parseQuery();
+   // Retrieve the model path passed from the parent component
+   const modelPath = params.modelPath;
+   let worker;
+   // Listen for messages from the parent window
+   window.addEventListener('message', (e) => {
+     const { type, params } = e.data;
+     if (type === 'INIT') {
+       // Initialize or reinitialize the worker with the model URL
+       if (worker) worker.terminate();
+       worker = new Worker('worker.js');
+       worker.postMessage({ type: 'INIT', modelPath });
+       worker.onmessage = (ev) => {
+         // Proxy worker messages back to parent
+         parent.postMessage(ev.data, '*');
+       };
+     } else if (type === 'INFER') {
+       // Forward inference task to the worker
+       worker.postMessage({ type: 'INFER', params });
+     }
+   });
+   // Notify parent that iframe and worker proxy are ready
+   parent.postMessage({ type: 'IFRAME_READY' }, '*');
+ </script>
+ </body>
+ </html>

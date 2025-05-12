@@ -1,12 +1,12 @@
 # Packaging & Distribution Guide
 
-This document outlines the steps to package, distribute, and publish the Secure ML Streamlit Component under the MIT license with Edward Joseph as the author.
+This document outlines the steps to package, distribute, and publish the streamlit-secure-context component under the MIT license with Edward Joseph as the author.
 
 ## 1. Update setup.py
 - Ensure the following fields are set:
   ```python
   setup(
-      name="secure_ml_component",
+      name="streamlit-secure-context",
       version="0.1.0",
       packages=find_packages(),
       include_package_data=True,
@@ -16,7 +16,7 @@ This document outlines the steps to package, distribute, and publish the Secure 
       license="MIT",
       long_description=open('README.md').read(),
       long_description_content_type='text/markdown',  # optional
-      url="https://github.com/your-organization/secure-ml-component",  # optional
+      url="https://github.com/your-organization/streamlit-secure-context",  # optional
       classifiers=[
           "License :: OSI Approved :: MIT License",
           "Programming Language :: Python :: 3",
@@ -48,7 +48,7 @@ Add a `MANIFEST.in` at the root:
 ```text
 include LICENSE
 include README.md
-recursive-include streamlit_component/frontend/build *
+recursive-include streamlit_secure_context/frontend/build *
 ```
 
 ## 4. Bundle frontend assets in the Python package
@@ -56,8 +56,8 @@ Ensure the built React assets are copied into the Python package before installa
 Update `scripts/bootstrap.sh` to include:
 ```bash
 # After npm run build in frontend/
-rm -rf streamlit_component/frontend/build
-cp -r frontend/build streamlit_component/frontend/
+rm -rf streamlit_secure_context/frontend/build
+cp -r frontend/build streamlit_secure_context/frontend/
 ```
 
 ## 5. Release script
@@ -132,12 +132,12 @@ frontend/build/
   - On tag push, run `scripts/release.sh` or use `pypa/gh-action-pypi-publish`
 
 ## 9. Optional: Publish frontend to npm
-- Package your React component under an npm name (e.g., `secure-ml-component`).
+* Package your React component under an npm name (e.g., `streamlit-secure-context`).
 - Update your Python wrapper for release mode:
   ```python
-  _secure_ml = components.declare_component(
-      "secure_ml",
-      url=f"https://unpkg.com/secure-ml-component@{version}/",
+  _streamlit_secure_context = components.declare_component(
+      "streamlit_secure_context",
+      url=f"https://unpkg.com/streamlit-secure-context@{version}/",
   )
   ```
 
@@ -146,8 +146,12 @@ frontend/build/
 # Build & install locally
 ./scripts/bootstrap.sh
 
-# In a fresh environment
-pip uninstall secure_ml_component || true
+### In a fresh environment
+```bash
+pip uninstall streamlit-secure-context || true
+pip install .
+streamlit run examples/app.py
+```
 pip install .
 streamlit run examples/app.py
 ```

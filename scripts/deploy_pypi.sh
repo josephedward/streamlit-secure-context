@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Use a temp dir for the upstream CLI
+TMP_CLI=/tmp/streamlit
+if [ -d "$TMP_CLI" ]; then
+  echo "[1/4] Updating upstream CLI..."
+  git -C "$TMP_CLI" pull
+else
+  echo "[1/4] Cloning upstream CLI..."
+  git clone https://github.com/streamlit/streamlit.git "$TMP_CLI"
+fi
+
 if [ $# -ne 1 ]; then
   echo "Usage: $0 <new-version>"
   exit 1
@@ -8,7 +18,7 @@ fi
 version=$1
 
 # 1) Bundle frontend build assets (frontend/build must already exist)
-echo "[1/4] Bundling frontend build assets..."
+echo "[2/4] Bundling frontend build assets..."
 # Bundle frontend build assets if present; otherwise skip with warning
 if [ -d "frontend/build" ]; then
   rm -rf streamlit_secure_context/frontend

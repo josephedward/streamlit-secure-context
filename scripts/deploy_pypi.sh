@@ -7,13 +7,11 @@ if [ $# -ne 1 ]; then
 fi
 version=$1
 
-# 1) Prepare frontend build (must exist under frontend/build)
+# 1) Prepare frontend build (must exist under frontend/build); if missing, build it
 echo "[1/4] Preparing frontend build..."
 if [ ! -d "frontend/build" ]; then
-  echo "ERROR: frontend/build not found."
-  echo "Please run 'cd frontend && npm install && npm run build' to create it,"
-  echo "then commit the build directory into your repo."
-  exit 1
+  echo "[1/4] Frontend build not found, running npm install & build..."
+  (cd frontend && npm install && npm run build)
 fi
 rm -rf streamlit_secure_context/frontend
 mkdir -p streamlit_secure_context/frontend

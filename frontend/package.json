@@ -5,7 +5,7 @@
   "dependencies": {
     "@tensorflow/tfjs": "4.6.0",
     "onnxruntime-web": "1.14.1",
-    "@tensorflow/tfjs-tflite": "0.0.1",
+    "@tensorflow/tfjs-tflite": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "streamlit-component-lib": "^2.2.0"

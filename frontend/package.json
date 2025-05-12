@@ -7,7 +7,7 @@
     "react-dom": "^18.2.0"
   },
   "scripts": {
-    "start": "npx --package streamlit-component-lib streamlit-component-lib start",
-    "build": "npx --package streamlit-component-lib streamlit-component-lib build"
+    "start": "npx --yes --package streamlit-component-lib streamlit-component-lib start",
+    "build": "npx --yes --package streamlit-component-lib streamlit-component-lib build"
   }
 }

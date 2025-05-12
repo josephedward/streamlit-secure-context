@@ -1,4 +1,4 @@
-# Secure ML Streamlit Component
+# streamlit-secure-context
 
 This repository provides a secure machine learning inference component for Streamlit, leveraging modern browser security features (HTTPS enforcement, Cross-Origin Isolation, and CSP) and a worker-based inference pipeline inside a sandboxed iframe.
 
@@ -10,7 +10,7 @@ This repository provides a secure machine learning inference component for Strea
 - [Usage Example](#usage-example)
 - [Directory Structure](#directory-structure)
 - [Code Breakdown](#code-breakdown)
-  - [Python Wrapper (`streamlit_component/__init__.py`)](#python-wrapper-streamlit_componentinitpy)
+- [Python Wrapper (`streamlit_secure_context/__init__.py`)](#python-wrapper-streamlit_secure_contextinitpy)
   - [React Frontend (`frontend/src`)](#react-frontend-frontendsrc)
   - [Iframe Loader (`frontend/public/model_iframe.html`)](#iframe-loader-frontendorpublicmodel_iframehtml)
   - [Web Worker (`frontend/public/worker.js`)](#web-worker-frontendorpublicworkerjs)
@@ -25,7 +25,7 @@ This repository provides a secure machine learning inference component for Strea
 ## Installation
 ```bash
 git clone <repo_url>
-cd streamlit-component
+cd streamlit-secure-context
 ```
 
 ## Building the Frontend
@@ -44,9 +44,9 @@ pip install .
 ## Usage Example
 ```python
 import streamlit as st
-from streamlit_component import secure_ml_component
+from streamlit_secure_context import streamlit_secure_context
 
-result = secure_ml_component(
+result = streamlit_secure_context(
     model_path="https://example.com/model.tflite",
     security_config={
         "coop": "same-origin",
@@ -67,13 +67,13 @@ st.write("Inference result:", result)
 
 ## Directory Structure
 ```
-streamlit-component/
+streamlit-secure-context/
 ├── frontend/                # React code & build config
 │   ├── public/              # Static assets for iframe & worker
 │   └── src/                 # React component source (TypeScript)
 ├── scripts/                 # Helper scripts
 │   └── bootstrap.sh         # Build & install automation
-├── streamlit_component/     # Python wrapper package
+├── streamlit_secure_context/     # Python wrapper package
 │   └── __init__.py
 ├── setup.py                 # Package setup
 └── README.md                # This file
@@ -81,11 +81,11 @@ streamlit-component/
 
 ## Code Breakdown
 
-### Python Wrapper (`streamlit_component/__init__.py`)
-Declares the Streamlit component and exposes `secure_ml_component()` for use in Python apps. Switches between local build and CDN modes based on `_RELEASE` flag.
+### Python Wrapper (`streamlit_secure_context/__init__.py`)
+Declares the Streamlit component and exposes `streamlit_secure_context()` for use in Python apps. Switches between local build and CDN modes based on `_RELEASE` flag.
 
 ### React Frontend (`frontend/src`)
-Defines `SecureMLComponent`:
+Defines `StreamlitSecureContext`:
  - Configures CSP via a dynamic `<meta>` tag
  - Enforces COOP/COEP and verifies cross-origin isolation
  - Creates a sandboxed iframe to host the inference logic
@@ -107,4 +107,16 @@ Placeholder for inference logic. Responds to `INIT` (model loading) and `INFER` 
 1. Integrate real model loading and inference in `worker.js`.
 2. Extend the Python API for parameter validation and error handling.
 3. Customize CSP directives and sandbox flags per your deployment requirements.
+   
+## HIPAA-Conscious Deployment
+
+To deploy in a HIPAA-compliant environment and minimize ePHI exposure:
+
+- HTTPS everywhere: Configure your Streamlit server to use TLS certificates (see docs for `server.sslCert` and `server.key` options).
+- Host all assets internally: The frontend is configured to bundle TFJS, ONNX Runtime Web, and TFLite scripts locally. Run `npm install` in `frontend/` and let the `postinstall` script copy these assets into `frontend/public`.
+- Client-only PHI processing: Use in-browser inputs within the secure component (e.g., `<input type="file">`) so that raw PHI never leaves the user’s browser.
+- Secure server environment: If you collect logs or results, ensure your hosting platform enforces strict access controls, audit logging, and is a HIPAA-certified environment.
+- Device security: Ensure end-user devices have disk encryption, updated browsers, and adhere to your organizational security policies.
+
+By running inference entirely in the user’s browser and enforcing strict security policies, you minimize ePHI exposure and simplify HIPAA compliance.
 4. Add unit and integration tests with Jest and Cypress.

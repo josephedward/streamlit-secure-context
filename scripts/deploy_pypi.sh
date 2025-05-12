@@ -32,6 +32,10 @@ fi
 echo "[2/4] Bumping Python package version to $version..."
 sed -i '' -E "s/version=\"[0-9]+\.[0-9]+\.[0-9]+\"/version=\"$version\"/" setup.py
 
+# Clean out any old distributions so we only upload the new build
+echo "[*] Cleaning old distributions..."
+rm -rf dist
+
 # 3) Build distributions
 echo "[3/4] Building sdist & wheel..."
 python3 -m pip install --upgrade --user build wheel twine >/dev/null

@@ -3,9 +3,11 @@ set -euo pipefail
 
 # Use a temp dir for the upstream CLI
 TMP_CLI=/tmp/streamlit
-if [ -d "$TMP_CLI" ]; then
-  echo "[1/4] Updating upstream CLI..."
-  git -C "$TMP_CLI" pull
+if [ ! -d "$TMP_CLI" ]; then
+  echo "[1/4] Cloning upstream CLI..."
+  git clone https://github.com/streamlit/streamlit.git "$TMP_CLI"
+else
+  echo "[1/4] Upstream CLI already present; skipping clone"
 else
   echo "[1/4] Cloning upstream CLI..."
   git clone https://github.com/streamlit/streamlit.git "$TMP_CLI"

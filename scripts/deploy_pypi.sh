@@ -34,7 +34,9 @@ if [ -z "${PYPI_TOKEN:-}" ]; then
   echo "Error: set PYPI_TOKEN to your PyPI API token"
   exit 1
 fi
-twine upload dist/* -u __token__ -p "$PYPI_TOKEN"#!/usr/bin/env bash
+twine upload dist/* -u __token__ -p "$PYPI_TOKEN"
+
+echo "✅ streamlit-secure-context@$version published!"
 set -euo pipefail
 
 if [ $# -ne 1 ]; then

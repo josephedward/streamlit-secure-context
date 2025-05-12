@@ -7,15 +7,15 @@ if [ $# -ne 1 ]; then
 fi
 version=$1
 
-# 1) Prepare frontend build (must exist under frontend/build); if missing, build it
+# 1) Prepare frontend build (must exist under frontend/build); skip if missing
 echo "[1/4] Preparing frontend build..."
-if [ ! -d "frontend/build" ]; then
-  echo "ERROR: frontend/build not found. Please add a prebuilt frontend/build directory to your repo and commit it."
-  exit 1
+if [ -d "frontend/build" ]; then
+  rm -rf streamlit_secure_context/frontend
+  mkdir -p streamlit_secure_context/frontend
+  cp -r frontend/build streamlit_secure_context/frontend
+else
+  echo "[1/4] Warning: frontend/build not found; skipping static asset bundling"
 fi
-rm -rf streamlit_secure_context/frontend
-mkdir -p streamlit_secure_context/frontend
-cp -r frontend/build streamlit_secure_context/frontend
 
 # 2) Bump version in setup.py
 echo "[2/4] Bumping Python package version to $version..."

@@ -27,6 +27,7 @@ jobs:
         run: |
           cd frontend
           npm install
+          npm install -g streamlit-component-lib@2.0.0
           npm run build
       - name: Copy frontend build assets
         run: |

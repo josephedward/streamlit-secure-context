@@ -9,6 +9,8 @@ version=$1
 
 # 1) Prepare frontend build (must exist under frontend/build); skip if missing
 echo "[1/4] Preparing frontend build..."
+echo "[1/4] Installing streamlit-component-lib CLI..."
+(cd frontend && npm install streamlit-component-lib@2.0.0)
 if [ -d "frontend/build" ]; then
   rm -rf streamlit_secure_context/frontend
   mkdir -p streamlit_secure_context/frontend

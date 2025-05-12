@@ -10,9 +10,9 @@ npm install
  npm run build
 
 echo "[bootstrap] Copying frontend build assets into Python package..."
-rm -rf "$HERE/streamlit_component/frontend"
-mkdir -p "$HERE/streamlit_component/frontend"
-cp -r "$HERE/frontend/build" "$HERE/streamlit_component/frontend"
+    rm -rf "$HERE/streamlit_secure_context/frontend"
+    mkdir -p "$HERE/streamlit_secure_context/frontend"
+    cp -r "$HERE/frontend/build" "$HERE/streamlit_secure_context/frontend"
 
 echo "[bootstrap] Installing Python package..."
 cd "$HERE"

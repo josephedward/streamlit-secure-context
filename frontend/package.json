@@ -7,7 +7,7 @@
     "onnxruntime-web": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "streamlit-component-lib": "*"
+    "streamlit-component-lib": "^2.0.0"
   },
   "scripts": {
     "preinstall": "npx npm-force-resolutions",

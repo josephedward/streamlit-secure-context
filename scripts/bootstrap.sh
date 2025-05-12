@@ -6,8 +6,9 @@ HERE="$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/..\" && pwd)"
 
 echo "[bootstrap] Building frontend..."
 cd "$HERE/frontend"
+npm link streamlit-component-lib || { echo "ERROR: streamlit-component-lib CLI not linked. Build the CLI and run 'npm link streamlit-component-lib'."; exit 1; }
 npm install
- npm run build
+npm run build
 
 echo "[bootstrap] Copying frontend build assets into Python package..."
     rm -rf "$HERE/streamlit_secure_context/frontend"

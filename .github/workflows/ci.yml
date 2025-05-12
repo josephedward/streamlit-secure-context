@@ -30,13 +30,13 @@ jobs:
           npm run build
       - name: Copy frontend build assets
         run: |
-          rm -rf streamlit_component/frontend
-          mkdir -p streamlit_component/frontend
-          cp -r frontend/build streamlit_component/frontend
+          rm -rf streamlit_secure_context/frontend
+          mkdir -p streamlit_secure_context/frontend
+          cp -r frontend/build streamlit_secure_context/frontend
       - name: Install package
         run: pip install .
       - name: Smoke test import
-        run: python -c "import streamlit_component"
+        run: python -c "import streamlit_secure_context"
 
   publish:
     if: startsWith(github.ref, 'refs/tags/')

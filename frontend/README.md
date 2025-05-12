@@ -1,6 +1,6 @@
- # Frontend for Secure ML Streamlit Component
+# Frontend for streamlit-secure-context Component
 
- This directory contains the React frontend for the secure_ml component.
+This directory contains the React frontend for the streamlit-secure-context component.
 
  ## Development
 

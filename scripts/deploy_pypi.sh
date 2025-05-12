@@ -7,23 +7,15 @@ if [ $# -ne 1 ]; then
 fi
 version=$1
 
-# 1) Prepare frontend build (must exist under frontend/build); skip if missing
-echo "[1/4] Preparing frontend build..."
-echo "[1/4] Packing & installing upstream CLI..."
-rm -rf /tmp/streamlit
-git clone https://github.com/streamlit/streamlit.git /tmp/streamlit
-cd /tmp/streamlit/frontend/streamlit-component-lib
-npm install
-npm pack
-mv streamlit-component-lib-*.tgz "$OLDPWD"/frontend/
-cd "$OLDPWD"
-(cd frontend && npm install && npm install ./streamlit-component-lib-*.tgz)
+# 1) Bundle frontend build assets (frontend/build must already exist)
+echo "[1/4] Bundling frontend build assets..."
 if [ -d "frontend/build" ]; then
   rm -rf streamlit_secure_context/frontend
   mkdir -p streamlit_secure_context/frontend
   cp -r frontend/build streamlit_secure_context/frontend
 else
-  echo "[1/4] Warning: frontend/build not found; skipping static asset bundling"
+  echo "Error: frontend/build not found. Please run 'cd frontend && npm install && npm run build' first."
+  exit 1
 fi
 
 # 2) Bump version in setup.py

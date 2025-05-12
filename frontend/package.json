@@ -4,10 +4,11 @@
   "private": true,
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "streamlit-component-lib": "^2.0.0"
   },
   "scripts": {
-    "start": "npx --yes --package streamlit-component-lib streamlit-component-lib start",
-    "build": "npx --yes --package streamlit-component-lib streamlit-component-lib build"
+    "start": "streamlit-component-lib start",
+    "build": "streamlit-component-lib build"
   }
 }

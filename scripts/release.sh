@@ -16,8 +16,8 @@ git add setup.py
 git commit -m "chore: bump version to $version"
 git tag "v$version"
 
-# 3) Build distributions
-./scripts/bootstrap.sh
+# 3) Build distributions (skip frontend bundling)
+# ./scripts/bootstrap.sh  # no-op, assets already vendored
 python setup.py sdist bdist_wheel
 
 # 4) Upload to PyPI (requires ~/.pypirc configured)

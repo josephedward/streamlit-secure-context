@@ -9,15 +9,15 @@ fi
 version=$1
 
 # 1) Bump version in setup.py
-sed -i -E "s/version=\"[0-9]+\.[0-9]+\.[0-9]+\"/version=\"$version\"/" setup.py
+sed -i '' -E "s/version=\"[0-9]+\.[0-9]+\.[0-9]+\"/version=\"$version\"/" setup.py
 
 # 2) Commit & tag
 git add setup.py
 git commit -m "chore: bump version to $version"
 git tag "v$version"
 
-# 3) Build distributions (skip frontend bundling)
-# ./scripts/bootstrap.sh  # no-op, assets already vendored
+# 3) Build distributions (including frontend)
+./scripts/bootstrap.sh
 python setup.py sdist bdist_wheel
 
 # 4) Upload to PyPI (requires ~/.pypirc configured)

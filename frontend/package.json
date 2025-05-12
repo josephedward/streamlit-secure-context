@@ -1,14 +1,13 @@
- {
+{
   "name": "streamlit-secure-context-frontend",
-   "version": "0.1.0",
-   "private": true,
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "streamlit-component-lib": "^2.0.0"
+    "react-dom": "^18.2.0"
   },
   "scripts": {
     "start": "npx --package streamlit-component-lib streamlit-component-lib start",
     "build": "npx --package streamlit-component-lib streamlit-component-lib build"
   }
- }
+}

@@ -1,16 +1,9 @@
-import pathlib
+from pathlib import Path
 from setuptools import setup, find_packages
 
 # Read the long description from README.md
-HERE = pathlib.Path(__file__).parent
+HERE = Path(__file__).parent
 long_description = (HERE / "README.md").read_text(encoding="utf-8")
-
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
-from pathlib import Path
-
-# Load the long description from README.md
-long_description = Path(__file__).parent.joinpath("README.md").read_text(encoding="utf-8")
 
 setup(
     name="streamlit-secure-context",

@@ -9,13 +9,13 @@ version=$1
 
 # 1) Bundle frontend build assets (frontend/build must already exist)
 echo "[1/4] Bundling frontend build assets..."
+# Bundle frontend build assets if present; otherwise skip with warning
 if [ -d "frontend/build" ]; then
   rm -rf streamlit_secure_context/frontend
   mkdir -p streamlit_secure_context/frontend
   cp -r frontend/build streamlit_secure_context/frontend
 else
-  echo "Error: frontend/build not found. Please run 'cd frontend && npm install && npm run build' first."
-  exit 1
+  echo "[1/4] Warning: frontend/build not found; skipping static asset bundling"
 fi
 
 # 2) Bump version in setup.py

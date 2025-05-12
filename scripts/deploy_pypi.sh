@@ -34,7 +34,7 @@ sed -i '' -E "s/version=\"[0-9]+\.[0-9]+\.[0-9]+\"/version=\"$version\"/" setup.
 
 # 3) Build distributions
 echo "[3/4] Building sdist & wheel..."
-python3 -m pip install --upgrade build wheel twine >/dev/null
+python3 -m pip install --upgrade --user build wheel twine >/dev/null
 python3 -m build --sdist --wheel
 
 # 4) Upload to PyPI

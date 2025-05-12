@@ -98,16 +98,11 @@ Loads inside an isolated iframe with COOP/COEP headers. Parses URL parameters fo
 Placeholder for inference logic. Responds to `INIT` (model loading) and `INFER` (dummy result) messages. Replace with real ML model loading and inference code.
 
 ## Scripts
-`./scripts/bootstrap.sh` automates building the frontend and installing the Python package:
 ```bash
 ./scripts/bootstrap.sh
 ```
+Automates building the frontend and installing the Python package. 
 
-## Next Steps
-1. Integrate real model loading and inference in `worker.js`.
-2. Extend the Python API for parameter validation and error handling.
-3. Customize CSP directives and sandbox flags per your deployment requirements.
-   
 ## HIPAA-Conscious Deployment
 
 To deploy in a HIPAA-compliant environment and minimize ePHI exposure:
@@ -119,4 +114,10 @@ To deploy in a HIPAA-compliant environment and minimize ePHI exposure:
 - Device security: Ensure end-user devices have disk encryption, updated browsers, and adhere to your organizational security policies.
 
 By running inference entirely in the user’s browser and enforcing strict security policies, you minimize ePHI exposure and simplify HIPAA compliance.
+
+
+## Next Steps
+1. Integrate real model loading and inference in `worker.js`.
+2. Extend the Python API for parameter validation and error handling.
+3. Customize CSP directives and sandbox flags per your deployment requirements.
 4. Add unit and integration tests with Jest and Cypress.

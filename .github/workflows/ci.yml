@@ -25,9 +25,14 @@ jobs:
           node-version: '14'
       - name: Build frontend
         run: |
-          cd frontend
+          # Pack & install the real CLI from Streamlit’s monorepo
+          git clone https://github.com/streamlit/streamlit.git /tmp/streamlit
+          cd /tmp/streamlit/packages/frontend/streamlit-component-lib
           npm install
-          npm install -g streamlit-component-lib@2.0.0
+          npm pack
+          cd /github/workspace/frontend
+          npm install
+          npm install ./streamlit-component-lib-*.tgz
           npm run build
       - name: Copy frontend build assets
         run: |

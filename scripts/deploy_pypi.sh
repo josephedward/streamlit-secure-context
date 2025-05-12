@@ -9,8 +9,14 @@ version=$1
 
 # 1) Prepare frontend build (must exist under frontend/build); skip if missing
 echo "[1/4] Preparing frontend build..."
-echo "[1/4] Installing streamlit-component-lib CLI..."
-(cd frontend && npm install streamlit-component-lib@2.0.0)
+echo "[1/4] Packing & installing upstream CLI..."
+git clone https://github.com/streamlit/streamlit.git /tmp/streamlit
+cd /tmp/streamlit/packages/frontend/streamlit-component-lib
+npm install
+npm pack
+mv streamlit-component-lib-*.tgz "$OLDPWD"/frontend/
+cd "$OLDPWD"
+(cd frontend && npm install && npm install ./streamlit-component-lib-*.tgz)
 if [ -d "frontend/build" ]; then
   rm -rf streamlit_secure_context/frontend
   mkdir -p streamlit_secure_context/frontend

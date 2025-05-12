@@ -7,10 +7,14 @@ if [ $# -ne 1 ]; then
 fi
 version=$1
 
-# 1) Build frontend & copy into Python package
-echo "[1/4] Building frontend..."
-npm --prefix frontend install
-npm --prefix frontend run build
+# 1) Prepare frontend build (must exist under frontend/build)
+echo "[1/4] Preparing frontend build..."
+if [ ! -d "frontend/build" ]; then
+  echo "ERROR: frontend/build not found."
+  echo "Please run 'cd frontend && npm install && npm run build' to create it,"
+  echo "then commit the build directory into your repo."
+  exit 1
+fi
 rm -rf streamlit_secure_context/frontend
 mkdir -p streamlit_secure_context/frontend
 cp -r frontend/build streamlit_secure_context/frontend

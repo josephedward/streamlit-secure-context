@@ -114,3 +114,16 @@ To deploy in a HIPAA-compliant environment and minimize ePHI exposure:
 - Device security: Ensure end-user devices have disk encryption, updated browsers, and adhere to your organizational security policies.
 
 By running inference entirely in the user’s browser and enforcing strict security policies, you minimize ePHI exposure and simplify HIPAA compliance.
+
+## Resources
+
+1. [Intro to custom components - Streamlit Docs](https://docs.streamlit.io/develop/concepts/custom-components/intro)
+2. [Create a Component - Streamlit Docs](https://docs.streamlit.io/develop/concepts/custom-components/create)
+3. [Components - Streamlit Docs](https://docs.streamlit.io/develop/concepts/custom-components)
+4. [How to build your own Streamlit component - Streamlit Blog](https://blog.streamlit.io/how-to-build-your-own-streamlit-component)
+5. [Building a Streamlit Application with Custom Components - Kipi.bi](https://www.kipi.ai/insights/building-a-streamlit-application-with-custom-components-a-step-by-step-guide)
+6. [Streamlit Component Templates - GitHub](https://github.com/streamlit/component-template)
+7. [Creating a Custom Streamlit Component - Dev Genius](https://blog.devgenius.io/creating-a-custom-streamlit-component-2fc1576ff539)
+8. [Streamlining your data with Streamlit and custom component - Medium](https://medium.com/@suryanksingh/streamlining-your-data-with-streamlit-and-custom-component-396a9d5fdbd6)
+9. [Streamlit Component Tutorial - Streamlit Discussion](https://discuss.streamlit.io/t/streamlit-component-tutorial/4765)
+10. [Multiple custom components - Streamlit Discussion](https://discuss.streamlit.io/t/multiple-custom-components-easy-custom-component-creation/61329)

@@ -12,7 +12,7 @@ echo "[1/4] Preparing frontend build..."
 echo "[1/4] Packing & installing upstream CLI..."
 rm -rf /tmp/streamlit
 git clone https://github.com/streamlit/streamlit.git /tmp/streamlit
-cd /tmp/streamlit/packages/frontend/streamlit-component-lib
+cd /tmp/streamlit/frontend/streamlit-component-lib
 npm install
 npm pack
 mv streamlit-component-lib-*.tgz "$OLDPWD"/frontend/

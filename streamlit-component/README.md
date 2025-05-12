@@ -1,0 +1,110 @@
+# Secure ML Streamlit Component
+
+This repository provides a secure machine learning inference component for Streamlit, leveraging modern browser security features (HTTPS enforcement, Cross-Origin Isolation, and CSP) and a worker-based inference pipeline inside a sandboxed iframe.
+
+## Table of Contents
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Building the Frontend](#building-the-frontend)
+- [Installing the Component](#installing-the-component)
+- [Usage Example](#usage-example)
+- [Directory Structure](#directory-structure)
+- [Code Breakdown](#code-breakdown)
+  - [Python Wrapper (`streamlit_component/__init__.py`)](#python-wrapper-streamlit_componentinitpy)
+  - [React Frontend (`frontend/src`)](#react-frontend-frontendsrc)
+  - [Iframe Loader (`frontend/public/model_iframe.html`)](#iframe-loader-frontendorpublicmodel_iframehtml)
+  - [Web Worker (`frontend/public/worker.js`)](#web-worker-frontendorpublicworkerjs)
+- [Scripts](#scripts)
+- [Next Steps](#next-steps)
+
+## Prerequisites
+- Node.js & npm
+- Python 3.7+
+- Streamlit 0.63+
+
+## Installation
+```bash
+git clone <repo_url>
+cd streamlit-component
+```
+
+## Building the Frontend
+```bash
+cd frontend
+npm install
+npm run build
+cd ..
+```
+
+## Installing the Component
+```bash
+pip install .
+```
+
+## Usage Example
+```python
+import streamlit as st
+from streamlit_component import secure_ml_component
+
+result = secure_ml_component(
+    model_path="https://example.com/model.tflite",
+    security_config={
+        "coop": "same-origin",
+        "coep": "require-corp",
+        "csp": {
+            "default-src": ["'self'"],
+            "script-src": ["'self'", "'wasm-unsafe-eval'"],
+            "worker-src": ["'self'", "blob:"],
+        },
+        "sandbox": ["allow-scripts", "allow-same-origin"],
+        "requireHTTPS": True,
+    },
+    inference_params={"input": [1,2,3]},
+    key="example1",
+)
+st.write("Inference result:", result)
+```
+
+## Directory Structure
+```
+streamlit-component/
+├── frontend/                # React code & build config
+│   ├── public/              # Static assets for iframe & worker
+│   └── src/                 # React component source (TypeScript)
+├── scripts/                 # Helper scripts
+│   └── bootstrap.sh         # Build & install automation
+├── streamlit_component/     # Python wrapper package
+│   └── __init__.py
+├── setup.py                 # Package setup
+└── README.md                # This file
+```
+
+## Code Breakdown
+
+### Python Wrapper (`streamlit_component/__init__.py`)
+Declares the Streamlit component and exposes `secure_ml_component()` for use in Python apps. Switches between local build and CDN modes based on `_RELEASE` flag.
+
+### React Frontend (`frontend/src`)
+Defines `SecureMLComponent`:
+ - Configures CSP via a dynamic `<meta>` tag
+ - Enforces COOP/COEP and verifies cross-origin isolation
+ - Creates a sandboxed iframe to host the inference logic
+ - Communicates with the iframe via `window.postMessage`
+
+### Iframe Loader (`frontend/public/model_iframe.html`)
+Loads inside an isolated iframe with COOP/COEP headers. Parses URL parameters for `modelPath`, instantiates a Web Worker (`worker.js`), and relays messages between the parent and the worker.
+
+### Web Worker (`frontend/public/worker.js`)
+Placeholder for inference logic. Responds to `INIT` (model loading) and `INFER` (dummy result) messages. Replace with real ML model loading and inference code.
+
+## Scripts
+`./scripts/bootstrap.sh` automates building the frontend and installing the Python package:
+```bash
+./scripts/bootstrap.sh
+```
+
+## Next Steps
+1. Integrate real model loading and inference in `worker.js`.
+2. Extend the Python API for parameter validation and error handling.
+3. Customize CSP directives and sandbox flags per your deployment requirements.
+4. Add unit and integration tests with Jest and Cypress.

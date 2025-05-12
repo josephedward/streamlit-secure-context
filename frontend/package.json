@@ -4,7 +4,7 @@
    "private": true,
   "dependencies": {
     "@tensorflow/tfjs": "4.6.0",
-    "onnxruntime-web": "1.14.1",
+    "onnxruntime-web": "1.14.0",
     "@tensorflow/tfjs-tflite": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

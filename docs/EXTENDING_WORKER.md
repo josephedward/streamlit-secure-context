@@ -1,6 +1,6 @@
 # Extending the Worker for Real ML Inference
 
-By default, `worker.js` is a stub that doesn’t actually load or run a real model. This guide walks through productionizing it with popular web-based ML runtimes, covering:
+This guide walks through productionizing worker.js with popular web-based ML runtimes, covering:
   - TensorFlow.js (TFJS)
   - ONNX Runtime Web (ORT)
   - Security policy considerations (CSP, COEP, COOP)

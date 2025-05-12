@@ -8,7 +8,7 @@
     "@streamlit/component-lib": "*"
   },
   "scripts": {
-    "start": "npx @streamlit/component-lib start",
-    "build": "npx @streamlit/component-lib build"
+    "start": "npx streamlit-component-lib start",
+    "build": "npx streamlit-component-lib build"
   }
  }

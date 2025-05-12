@@ -10,6 +10,9 @@
     "react-dom": "^18.2.0",
     "streamlit-component-lib": "^2.2.0"
   },
+  "resolutions": {
+    "@tensorflow/tfjs-tflite": "0.0.3"
+  },
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
     "start": "streamlit-component-lib start",

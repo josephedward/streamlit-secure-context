@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+# The PyPI token must be provided via the PYPI_TOKEN environment variable at runtime.
+if [ -z "${PYPI_TOKEN:-}" ]; then
+  echo "Error: PYPI_TOKEN environment variable not set" >&2
+  exit 1
+fi
+if [ -z "${PYPI_TOKEN:-}" ]; then
+  echo "error: PYPI_TOKEN not set"
+  exit 1
+fi
+
 set -euo pipefail
 
 # Use a temp dir for the upstream CLI

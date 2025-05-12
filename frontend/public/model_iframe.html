@@ -7,7 +7,9 @@
    <!-- Allow Same-Origin Opener to isolate this iframe -->
    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Secure ML Iframe</title>
+   <!-- Content Security Policy: restrict to same-origin assets -->
+   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self' blob:;">
+   <title>Streamlit Secure Context Iframe</title>
  </head>
  <body>
  <!-- Iframe script: handles init/infer messages and proxies to Web Worker -->

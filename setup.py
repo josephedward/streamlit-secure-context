@@ -1,4 +1,7 @@
 from setuptools import setup, find_packages
+
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
 from pathlib import Path
 
 # Load the long description from README.md
@@ -11,6 +14,8 @@ setup(
      include_package_data=True,
     install_requires=["streamlit>=0.63"],
     description="Streamlit Secure Context Component",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Edward Joseph",

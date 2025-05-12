@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "npm-force-resolutions": "^0.0.10"
+  }
+}

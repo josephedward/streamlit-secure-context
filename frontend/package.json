@@ -11,6 +11,7 @@
     "streamlit-component-lib": "^2.2.0"
   },
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "start": "streamlit-component-lib start",
     "build": "streamlit-component-lib build",
     "postinstall": "cp node_modules/@tensorflow/tfjs/dist/tf.min.js public/tf.min.js && cp node_modules/onnxruntime-web/dist/ort.min.js public/ort.min.js && cp node_modules/@tensorflow/tfjs-tflite/dist/tf-tflite.js public/tf-tflite.js"

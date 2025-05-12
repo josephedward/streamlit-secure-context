@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Build/dist
+build/
+dist/
+
+# Frontend/npm
+node_modules/
+frontend/build/
+
+# Virtualenv
+.venv/

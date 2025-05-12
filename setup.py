@@ -21,10 +21,6 @@ setup(
     description="Streamlit Secure Context Component",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
     author="Edward Joseph",
     license="MIT",
  )

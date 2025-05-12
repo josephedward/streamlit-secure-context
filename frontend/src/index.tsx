@@ -1,3 +1,3 @@
- import SecureMLComponent from "./SecureMLComponent";
+import StreamlitSecureContext from "./StreamlitSecureContext";
 
- export default SecureMLComponent;
+export default StreamlitSecureContext;

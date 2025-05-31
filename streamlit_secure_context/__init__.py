@@ -4,6 +4,7 @@ Provides `streamlit_secure_context()` to embed a secure context widget in Stream
 """
 import os
 import streamlit.components.v1 as components
+from streamlit.errors import StreamlitAPIException
 
 # Toggle between development mode (local build) and release mode (CDN-hosted)
 _RELEASE = False
@@ -15,6 +16,8 @@ _BUILD_DIR = os.path.join(_ROOT_DIR, "frontend", "build")
 
 if not _RELEASE:
     # During development, serve the component assets from the local frontend build
+    if not os.path.isdir(_BUILD_DIR):
+        raise StreamlitAPIException(f"Frontend build not found at {_BUILD_DIR}. Please run 'npm install && npm run build' in the frontend directory.")
     _streamlit_secure_context = components.declare_component(
         "streamlit_secure_context",
         path=_BUILD_DIR,

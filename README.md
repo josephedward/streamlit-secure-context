@@ -115,6 +115,12 @@ Automates building the frontend and installing the Python package.
 
 ## Demo
 
+This demo launches a simple Streamlit app that:
+  - Embeds the secure-context component in a Streamlit page, enforcing COOP, COEP, and CSP headers.
+  - Spins up a sandboxed iframe and injects a Web Worker for off-main-thread ML inference.
+  - Loads a model (based on the provided `model_path` URL) and runs inference on a hard-coded input (`[1, 2, 3]`).
+  - Returns the inference result back to the Streamlit app and displays it on the page.
+
 Follow these steps for an end-to-end demonstration of the secure ML inference pipeline:
 
 1. Clone & enter the repo  
@@ -137,3 +143,37 @@ Follow these steps for an end-to-end demonstration of the secure ML inference pi
    ```bash
    streamlit run examples/basic_demo.py
    ```
+
+## Under the Hood
+
+When you run the example with `streamlit run examples/basic_demo.py`, here's what happens behind the scenes:
+
+1. Streamlit one-liner
+   - Your Python code invokes `streamlit_secure_context(...)`, which loads the low-level component.
+
+2. Bootstrapping a sandboxed iframe
+   - A dynamic `<meta>` tag injects your CSP rules.
+   - COOP (`same-origin`) and COEP (`require-corp`) headers enforce cross-origin isolation.
+   - The iframe uses `sandbox="allow-scripts allow-same-origin"` to tightly control capabilities.
+
+3. Spawning a Web Worker
+   - Inside the iframe (`model_iframe.html`), the component creates a Worker.
+   - The parent frame `postMessage({ type: 'INIT', modelPath })` to initialize the model loader.
+
+4. Model loading & inference off-thread
+   - The Worker loads one of:
+     - TFJS GraphModel via `tf.loadGraphModel(modelPath)`
+     - TFLite via `@tensorflow/tfjs-tflite`
+     - ONNX Runtime Web via `onnxruntime-web`
+   - After the Worker signals `INIT_DONE`, the component sends `{ type: 'INFER', params }`.
+   - The Worker runs inference (`predict` or `executeAsync`) and `postMessage({ type: 'RESULT', result })`.
+
+5. Round-trip back to Python
+   - The React component receives the RESULT message.
+   - It calls `Streamlit.setComponentValue(result)`, returning the tensor data to Python.
+   - Your Streamlit app simply does `st.write("Inference result:", result)` to display it.
+
+Tips:
+- Open DevTools → Application → Frames → <iframe> to confirm sandbox/isolation.
+- Add `console.log` in `worker.js` or `model_iframe.html` to debug message passing.
+- Swap in a real model path and update `inference_params` (add a `shape` key) for genuine ML output.

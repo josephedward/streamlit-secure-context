@@ -117,41 +117,53 @@ Automates building the frontend and installing the Python package.
 
 ## Demo
 
-After installation and build (see above), start the unified demo:
+After installation and build (see above), you can run the individual demos:
 
 ```bash
-streamlit run examples/demo.py
-```
-Use the **Select Demo** dropdown in the sidebar to choose:
-  - **Image Classification**: secure MobileNet inference on a local image
-  - **Iris Inference**: TFJS Iris model with interactive sliders or simple mode
+# Iris inference demo:
+streamlit run examples/basic_demo.py
 
-Click **Run Inference** to execute the model in a sandboxed iframe + Web Worker.
+# Image processing demo:
+streamlit run examples/image_demo.py
+```
+Each demo uses the secure-context component to launch a sandboxed iframe with a Web Worker:
+- **Iris demo**: performs TFJS GraphModel inference on client side with slider controls.
+- **Image demo**: applies grayscale or invert filters to an image entirely in-browser.
 
 <!-- Image classification demo removed; use Demo Mode in basic_demo.py -->
 
-### Capturing Screenshots
-You can capture a screenshot of the unified demo with Playwright:
+### Capturing Screenshots & Videos
+You can capture screenshots and record videos of each demo using Playwright:
 
 ```bash
 # Install Playwright & browser
 pip install playwright
 playwright install chromium
 
-chmod +x scripts/capture_all_demos.sh
-./scripts/capture_all_demos.sh
-```
+# Ensure output directories exist
+mkdir -p screenshots videos
 
-This will save:
-  - `screenshots/basic_demo_interactive.png` — Iris interactive demo
-  - `screenshots/basic_demo_simple.png` — Iris simple demo
-  - `screenshots/image_demo.png` — Image classification demo
+# 1. Capture Image Classification demo (default selection)
+python3 scripts/capture_demo_screenshots.py \
+  examples/demo.py --port 8501 \
+  --output screenshots/image_demo.png \
+  --video-output videos/image_demo.webm
 
-To capture a specific demo manually, you can call the Python script directly. For example:
-```bash
-python3 scripts/capture_demo_screenshots.py examples/basic_demo.py \
-  --port 8501 --output screenshots/basic_demo_simple.png --mode simple
+# 2. Capture Iris Inference demo (Interactive mode)
+python3 scripts/capture_demo_screenshots.py \
+  examples/demo.py --port 8501 \
+  --output screenshots/iris_interactive.png \
+  --mode interactive \
+  --video-output videos/iris_interactive.webm
+
+# 3. Capture Iris Inference demo (Simple mode)
+python3 scripts/capture_demo_screenshots.py \
+  examples/demo.py --port 8501 \
+  --output screenshots/iris_simple.png \
+  --mode simple \
+  --video-output videos/iris_simple.webm
 ```
+Screenshots go into `screenshots/` and WebM recordings into `videos/`.
 
 ## Under the Hood
 

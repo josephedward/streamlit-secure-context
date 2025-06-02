@@ -25,57 +25,26 @@ This directory contains example apps demonstrating how to use the `streamlit-sec
    pip install -e .
    ```
 
-## Running the Basic Demo
-In one terminal, start the Streamlit app:
-```bash
-streamlit run examples/basic_demo.py
-```
-This will launch a web browser window showing a simple app that uses the secure context component to perform a dummy inference.
+## Running the Demos
+You can run each example separately:
 
-## Image Classification Demo
-In another terminal, run:
 ```bash
+# Iris inference demo (TFJS GraphModel with slider inputs)
+streamlit run examples/basic_demo.py
+
+# Image processing demo (grayscale/invert in sandbox)
 streamlit run examples/image_demo.py
 ```
-This demo uses MobileNet via TensorFlow.js in a sandboxed iframe/Web Worker to classify a user-selected image entirely in the browser.
-
-You can modify `basic_demo.py` to point at your own model URL or adjust inference parameters.
-
-## Demo Modes
-
-The `basic_demo.py` script supports two modes via the **Demo Mode** selector in the sidebar:
-1. **Interactive**: Full UI with model URL input, HTTPS toggle, and four Iris feature sliders.
-2. **Simple**: One-shot inference using fixed Iris inputs (`[5.1, 3.5, 1.4, 0.2]`) and no additional UI.
+Modify the scripts to point at your own model URLs or images.
 
 ### Capturing Screenshots
-After selecting your mode and running the app, capture a screenshot with Puppeteer:
+Capture a screenshot of the unified demo using Playwright:
 ```bash
-# Install Puppeteer if needed
-npm install puppeteer
-
-# Capture the current mode of basic_demo
-node scripts/capture_demo.js \
-  http://localhost:8501 \
-  screenshots/basic_demo_<mode>_screenshot.png
+# from repo root
+pip install playwright
+playwright install chromium
+python3 scripts/capture_demo_screenshots.py \
+  examples/demo.py --port 8501 --output screenshots/demo.png
 ```
-Replace `<mode>` with `interactive` or `simple`.  Screenshot files will be saved in `screenshots/`.
-## Running the Image Classification Demo
-
-In one terminal, start the secure image demo:
-```bash
-streamlit run examples/image_demo.py
-```
-This page lets you choose an image file; a MobileNet model loads from CDN inside a sandboxed iframe/Web Worker
-and classifies the image entirely in-browser, displaying the top prediction.
-
-### Capturing a Screenshot of the Image Demo
-```bash
-# Ensure Puppeteer is installed:
-npm install puppeteer
-
-# Capture the image demo:
-node scripts/capture_demo.js \
-  http://localhost:8501 \
-  screenshots/image_demo_screenshot.png
-```
-The screenshot will be saved at `screenshots/image_demo_screenshot.png`.
+The file `screenshots/demo.png` will be created.
+<!-- Image classification demo removed; refer to Demo Mode in basic_demo.py -->

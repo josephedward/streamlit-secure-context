@@ -4,6 +4,7 @@
     "start": "cd frontend && npm install && npm start"
   },
   "dependencies": {
-    "npm-force-resolutions": "^0.0.10"
+    "npm-force-resolutions": "^0.0.10",
+    "puppeteer": "^24.10.0"
   }
 }

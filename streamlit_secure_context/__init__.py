@@ -44,6 +44,7 @@ def streamlit_secure_context(
     security_config: dict = None,
     inference_params: dict = None,
     key: str = None,
+    **component_kwargs
 ):
     """
     Embed a secure context component in a Streamlit app.
@@ -58,9 +59,11 @@ def streamlit_secure_context(
     - The result object returned by the frontend worker via `Streamlit.setComponentValue()`.
     - For HIPAA compliance, ensure `requireHTTPS` is enabled, host assets locally, and keep PHI processing within the client browser.
     """
+    # Forward additional kwargs (e.g., height, width) to the Streamlit component
     return _streamlit_secure_context(
         modelPath=model_path,
         securityConfig=security_config or {},
         inferenceParams=inference_params or {},
         key=key,
+        **component_kwargs,
     )

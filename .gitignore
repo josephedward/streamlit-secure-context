@@ -16,3 +16,8 @@ frontend/build/
 .aider*
 
 misc
+.DS_Store
+ 
+# Demo artifacts (logs and PID files)
+/simple_demo.log
+/simple_demo.pid

@@ -44,6 +44,7 @@ def streamlit_secure_context(
     security_config: dict = None,
     inference_params: dict = None,
     key: str = None,
+    timeout: int = 0,
     **component_kwargs
 ):
     """
@@ -59,6 +60,8 @@ def streamlit_secure_context(
     - The result object returned by the frontend worker via `Streamlit.setComponentValue()`.
     - For HIPAA compliance, ensure `requireHTTPS` is enabled, host assets locally, and keep PHI processing within the client browser.
     """
+    # Set timeout for component call (0 = no timeout) and forward other kwargs
+    component_kwargs['timeout'] = timeout
     # Forward additional kwargs (e.g., height, width) to the Streamlit component
     try:
         return _streamlit_secure_context(

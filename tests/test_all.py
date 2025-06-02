@@ -134,8 +134,7 @@ def run_streamlit_demo(script_path, port, timeout=10):
             proc.kill()
 
 @pytest.mark.parametrize('script,port', [
-    ('examples/interactive_demo.py', 8501),
-    ('examples/simple_demo.py', 8502),
+    ('examples/demo.py', 8501),
 ])
 def test_demo_pages_serve(script, port):
     """
@@ -158,7 +157,7 @@ def test_capture_interactive_demo(tmp_path):
     """
     Test that the capture function can take a screenshot of the interactive Iris demo.
     """
-    demo = str(Path('examples/interactive_demo.py').absolute())
+    demo = str(Path('examples/demo.py').absolute())
     output_file = tmp_path / 'interactive_demo.png'
     port = 8510
     try:

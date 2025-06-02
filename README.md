@@ -26,6 +26,7 @@ This repository provides a secure machine learning inference component for Strea
   - [Web Worker (`frontend/public/worker.js`)](#web-worker-frontendorpublicworkerjs)
 - [Scripts](#scripts)
 - [Next Steps](#next-steps)
+- [Changelog](#changelog)
 
 ## Prerequisites
 - Node.js & npm
@@ -193,3 +194,7 @@ Tips:
 - Open DevTools → Application → Frames → <iframe> to confirm sandbox/isolation.
 - Add `console.log` in `worker.js` or `model_iframe.html` to debug message passing.
 - Swap in a real model path and update `inference_params` (add a `shape` key) for genuine ML output.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for detailed release notes.

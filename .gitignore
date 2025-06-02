@@ -21,3 +21,5 @@ misc
 # Demo artifacts (logs and PID files)
 /simple_demo.log
 /simple_demo.pid
+# Pytest output directories
+pytest-of-*/

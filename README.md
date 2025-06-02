@@ -145,12 +145,19 @@ Follow these steps for an end-to-end demonstration of the secure ML inference pi
    ```bash
    streamlit run examples/basic_demo.py
    ```
-5. (Optional) Capture a screenshot automatically:
+5. Generate reproducible screenshots using Playwright:
+1. Install Playwright and Chromium  
    ```bash
-   # From the project root, in a separate terminal
-   npm install puppeteer
-   node scripts/capture_demo.js
+   pip install playwright
+   playwright install chromium
    ```
+2. Run the capture script  
+   ```bash
+   python scripts/capture_demo_screenshots.py
+   ```
+This will create:
+- `screenshots/demo_full.png` — full-page screenshot
+- `screenshots/demo_sidebar.png` — sidebar screenshot
    The screenshot will be saved as `scripts/demo_screenshot.png`.
 
 ## Under the Hood

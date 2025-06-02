@@ -62,6 +62,8 @@ result = streamlit_secure_context(
     },
     inference_params={"input": [[5.1, 3.5, 1.4, 0.2]], "shape": [1, 4]},
     key="example1",
+    height=600,    # optional: specify component height in pixels
+    width=800,     # optional: specify component width in pixels
 )
 st.write("Inference result:", result)
 ```
@@ -114,68 +116,40 @@ Automates building the frontend and installing the Python package.
 
 
 ## Demo
-For a minimal one-line demo (no sidebar UI), run:
+
+After installation and build (see above), start the unified demo:
 
 ```bash
-streamlit run examples/simple_demo.py
+streamlit run examples/demo.py
 ```
-Or use the interactive demo below for a richer experience.
+Use the **Select Demo** dropdown in the sidebar to choose:
+  - **Image Classification**: secure MobileNet inference on a local image
+  - **Iris Inference**: TFJS Iris model with interactive sliders or simple mode
 
-- This demo launches a fully interactive Streamlit app that:
-- Provides a sidebar UI where you can specify the model URL (default: https://storage.googleapis.com/tfjs-models/tfjs/iris_v1/model.json), toggle HTTPS enforcement, and adjust four Iris feature sliders (sepal & petal length/width).
-  By default, inputs are shaped **[1,4]** to match the Iris TFJS GraphModel, returning a class-probability array.
-- Embeds the secure-context component in the page, enforcing COOP, COEP, and CSP headers.
-- Spins up a sandboxed iframe and injects a Web Worker for off-main-thread ML inference.
-- On clicking 'Run Inference', loads the model, runs inference on your inputs, and returns the result to the Streamlit app for display.
-- Logs any security policy violations (CSP/COEP/COOP) to the browser console in real time.
+Click **Run Inference** to execute the model in a sandboxed iframe + Web Worker.
 
-Follow these steps for an end-to-end demonstration of the secure ML inference pipeline:
+<!-- Image classification demo removed; use Demo Mode in basic_demo.py -->
 
-1. Clone & enter the repo  
-   ```bash
-   git clone <repo_url>
-   cd streamlit-secure-context
-   ```
-2. Build the frontend  
-   ```bash
-   cd frontend
-   npm install
-   npm run build
-   cd ..
-   ```
-3. Install the Python package in editable mode  
-   ```bash
-   pip install -e .
-   ```
-4. Run the example app  
-   ```bash
-   streamlit run examples/basic_demo.py
-   ```
-5. Generate reproducible screenshots using Playwright:
-1. Install Playwright and Chromium  
-   ```bash
-   pip install playwright
-   playwright install chromium
-   ```
-2. Run the capture script  
-   ```bash
-   python scripts/capture_demo_screenshots.py
-   ```
-This will create:
-- `screenshots/demo_full.png` — full-page screenshot
-- `screenshots/demo_sidebar.png` — sidebar screenshot
+### Capturing Screenshots
+You can capture a screenshot of the unified demo with Playwright:
 
-Alternatively, capture a live screenshot with Puppeteer:
-1. Install Puppeteer  
-   ```bash
-   npm install puppeteer
-   ```
-2. Run the capture script  
-   ```bash
-   node scripts/capture_demo.js
-   ```
-The screenshot will be saved as `scripts/demo_screenshot.png`.
-   The screenshot will be saved as `scripts/demo_screenshot.png`.
+```bash
+# Install Playwright & browser
+pip install playwright
+playwright install chromium
+
+chmod +x scripts/capture_all_demos.sh
+./scripts/capture_all_demos.sh
+```
+
+This will save:
+  - `screenshots/demo.png` (default view of the unified demo)
+
+To capture a specific demo manually, you can call the Python script directly. For example:
+```bash
+python3 scripts/capture_demo_screenshots.py examples/basic_demo.py \
+  --port 8501 --output screenshots/basic_demo_simple.png --mode simple
+```
 
 ## Under the Hood
 

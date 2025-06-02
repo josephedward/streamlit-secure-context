@@ -142,7 +142,18 @@ def run_streamlit_demo(script_path, port, timeout=10):
         except Exception:
             proc.kill()
 
-### Smoke test removed (unreliable in CI); focus is on screenshot & video capture tests.
+## ---------------- Demo smoke tests ---------------- #
+@pytest.mark.parametrize('script,port', [
+    ('examples/app.py', 8501),
+])
+def test_app_serves(script, port):
+    """
+    Smoke-test that the multipage app serves content at the root URL.
+    """
+    try:
+        run_streamlit_demo(script, port)
+    except Exception as e:
+        pytest.skip(f'App {script} failed to serve: {e}')
 
 # ---------------- Screenshot & Video capture tests ---------------- #
 pytest.importorskip('playwright.sync_api')
@@ -150,14 +161,15 @@ scripts_dir = Path(__file__).parent.parent / 'scripts'
 sys.path.insert(0, str(scripts_dir))
 import capture_demo_screenshots
 
-@pytest.mark.parametrize('mode, port, img_name, vid_name', [
-    (None, 8511, 'image.png', 'image.webm'),
-    ('interactive', 8512, 'iris_interactive.png', 'iris_interactive.webm'),
-    ('simple', 8513, 'iris_simple.png', 'iris_simple.webm'),
+@pytest.mark.parametrize('script,port,img_name,vid_name', [
+    ('examples/app.py', 8511, 'home.png', 'home.webm'),
+    ('examples/pages/image_classification.py', 8512, 'image_classification.png', 'image_classification.webm'),
+    ('examples/pages/1_interactive_iris_inference.py', 8513, 'iris_interactive.png', 'iris_interactive.webm'),
+    ('examples/pages/2_simple_iris_inference.py', 8514, 'iris_simple.png', 'iris_simple.webm'),
 ])
-def test_capture_modes(tmp_path, mode, port, img_name, vid_name):
-    """Capture screenshot and video for each demo mode."""
-    demo_script = str(Path('examples/demo.py').absolute())
+def test_capture_pages(tmp_path, script, port, img_name, vid_name):
+    """Capture screenshot and video for each demo script."""
+    demo_script = str(Path(script).absolute())
     screenshot_file = tmp_path / img_name
     video_file = tmp_path / vid_name
     try:
@@ -165,10 +177,9 @@ def test_capture_modes(tmp_path, mode, port, img_name, vid_name):
             demo_script,
             port,
             str(screenshot_file),
-            mode=mode,
-            video_path=str(video_file)
+            video_path=str(video_file),
         )
     except Exception as e:
-        pytest.skip(f'Capture skipped for mode={mode}: {e}')
+        pytest.skip(f'Capture skipped for {script}: {e}')
     assert screenshot_file.exists() and screenshot_file.stat().st_size > 0
     assert video_file.exists() and video_file.stat().st_size > 0

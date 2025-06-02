@@ -43,3 +43,7 @@ python3 scripts/capture_demo_screenshots.py \
 python3 scripts/capture_demo_screenshots.py \
   examples/pages/iris_demo.py --port 8501 --output screenshots/iris_demo.png
 ```
+
+## Changelog
+
+See [CHANGELOG.md](../CHANGELOG.md) for detailed release notes.

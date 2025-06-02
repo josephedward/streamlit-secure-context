@@ -100,13 +100,4 @@ if st.button("Run Inference"):
         st.error("No result returned. Check DevTools for errors.")
 else:
     st.info("Adjust the inputs in the sidebar and click 'Run Inference' to start.")
-# ---------------------
-# Related Projects
-st.sidebar.header("Related Projects")
-st.sidebar.markdown(
-    """
-- [Secure Browser ML Context](https://github.com/josephedward/secure-browser-ml-context)
-- [Browser ML Safe Zone](https://github.com/josephedward/browser-ml-safe-zone)
-- [Browser ML Guardian](https://github.com/josephedward/browser-ml-guardian)
-"""
-)
+# Related Projects section removed: external repos are empty and not relevant for this demo.

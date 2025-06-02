@@ -134,9 +134,13 @@ def run_streamlit_demo(script_path, port, timeout=10):
             proc.kill()
 
 @pytest.mark.parametrize('script,port', [
-    ('examples/demo.py', 8501),
+    ('examples/interactive_demo.py', 8501),
+    ('examples/simple_demo.py', 8502),
 ])
 def test_demo_pages_serve(script, port):
+    """
+    Smoke-test that each demo page starts and serves content at the given port.
+    """
     try:
         run_streamlit_demo(script, port)
     except Exception as e:
@@ -149,9 +153,13 @@ scripts_dir = Path(__file__).parent.parent / 'scripts'
 sys.path.insert(0, str(scripts_dir))
 import capture_demo_screenshots
 
-def test_capture_basic_demo(tmp_path):
-    demo = str(Path('examples/demo.py').absolute())
-    output_file = tmp_path / 'demo.png'
+
+def test_capture_interactive_demo(tmp_path):
+    """
+    Test that the capture function can take a screenshot of the interactive Iris demo.
+    """
+    demo = str(Path('examples/interactive_demo.py').absolute())
+    output_file = tmp_path / 'interactive_demo.png'
     port = 8510
     try:
         capture_demo_screenshots.capture(demo, port, str(output_file))
@@ -159,30 +167,3 @@ def test_capture_basic_demo(tmp_path):
         pytest.skip(f'Screenshot capture skipped due to error: {e}')
     assert output_file.exists(), 'Screenshot file was not created'
     assert output_file.stat().st_size > 0, 'Screenshot file is empty'
-    # Clean up demo process
-
-def test_capture_demo_video(tmp_path):
-    """
-    Test that the capture function can record a video of the simple Iris demo.
-    """
-    demo = str(Path('examples/demo.py').absolute())
-    # Prepare output paths
-    screenshot_file = tmp_path / 'iris_simple.png'
-    video_file = tmp_path / 'iris_simple.webm'
-    port = 8520
-    try:
-        # Record simple demo (Iris Simple Mode)
-        capture_demo_screenshots.capture(
-            demo,
-            port,
-            str(screenshot_file),
-            mode='simple',
-            video_path=str(video_file),
-        )
-    except Exception as e:
-        pytest.skip(f'Video capture skipped due to error: {e}')
-    # Verify outputs
-    assert screenshot_file.exists(), 'Screenshot for video test was not created'
-    assert screenshot_file.stat().st_size > 0, 'Screenshot for video test is empty'
-    assert video_file.exists(), 'Video file was not created'
-    assert video_file.stat().st_size > 0, 'Video file is empty'

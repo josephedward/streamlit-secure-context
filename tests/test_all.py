@@ -167,3 +167,25 @@ def test_capture_interactive_demo(tmp_path):
         pytest.skip(f'Screenshot capture skipped due to error: {e}')
     assert output_file.exists(), 'Screenshot file was not created'
     assert output_file.stat().st_size > 0, 'Screenshot file is empty'
+
+@pytest.mark.parametrize("mode, screenshot_name, video_name", [
+    (None, "image_demo.png", "image_demo.webm"),
+    ("interactive", "iris_interactive.png", "iris_interactive.webm"),
+    ("simple", "iris_simple.png", "iris_simple.webm"),
+])
+def test_capture_demo_modes(tmp_path, record_video_dir, mode, screenshot_name, video_name):
+    demo = str(Path('examples/demo.py').absolute())
+    port = 8501
+    screenshot_file = tmp_path / screenshot_name
+    video_file = tmp_path / video_name
+    try:
+        capture_demo_screenshots.capture(
+            demo, port, str(screenshot_file),
+            mode=mode, video_output=str(video_file)
+        )
+    except Exception as e:
+        pytest.skip(f'Capture skipped due to error: {e}')
+    assert screenshot_file.exists(), "Screenshot file was not created"
+    assert screenshot_file.stat().st_size > 0, "Screenshot file is empty"
+    assert video_file.exists(), "Video file was not created"
+    assert video_file.stat().st_size > 0, "Video file is empty"

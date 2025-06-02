@@ -52,13 +52,27 @@ def streamlit_secure_context(
 
     Parameters:
     - model_path (str): URL or file path to the ML model (HTTPS recommended in production).
-    - security_config (dict): Security parameters for COOP, COEP, CSP, sandbox, and HTTPS enforcement.
-    - inference_params (dict): Parameters for the ML inference worker.
-    - key (str): Optional identifier for this component instance.
+    - security_config (dict, optional): Security parameters (COOP, COEP, CSP, sandbox, HTTPS enforcement).
+    - inference_params (dict, optional): Parameters to pass to the ML inference worker.
+    - key (str, optional): Identifier for this component instance (required if multiple on one page).
+    - timeout (int, optional): Seconds to wait for component initialization before raising an error. Default is 0 (no timeout).
+    - **component_kwargs: Additional kwargs (e.g., height, width) forwarded to the Streamlit component.
 
     Returns:
-    - The result object returned by the frontend worker via `Streamlit.setComponentValue()`.
-    - For HIPAA compliance, ensure `requireHTTPS` is enabled, host assets locally, and keep PHI processing within the client browser.
+    - The result object from the frontend worker via `Streamlit.setComponentValue()`.
+
+    Usage:
+    ```python
+    result = streamlit_secure_context(
+        model_path="https://.../model.json",
+        security_config={"requireHTTPS": True},
+        inference_params={"input": [[1,2,3,4]]},
+        key="demo1",
+        height=400,
+        width=600,
+        timeout=30,  # wait up to 30 seconds for the component to load
+    )
+    ```
     """
     # Set timeout for component call (0 = no timeout) and forward other kwargs
     component_kwargs['timeout'] = timeout

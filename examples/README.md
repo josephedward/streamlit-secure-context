@@ -32,6 +32,13 @@ streamlit run examples/basic_demo.py
 ```
 This will launch a web browser window showing a simple app that uses the secure context component to perform a dummy inference.
 
+## Image Classification Demo
+In another terminal, run:
+```bash
+streamlit run examples/image_demo.py
+```
+This demo uses MobileNet via TensorFlow.js in a sandboxed iframe/Web Worker to classify a user-selected image entirely in the browser.
+
 You can modify `basic_demo.py` to point at your own model URL or adjust inference parameters.
 
 ## Demo Modes

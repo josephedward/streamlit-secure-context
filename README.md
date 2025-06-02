@@ -116,10 +116,10 @@ Automates building the frontend and installing the Python package.
 ## Demo
 
 This demo launches a simple Streamlit app that:
-  - Embeds the secure-context component in a Streamlit page, enforcing COOP, COEP, and CSP headers.
-  - Spins up a sandboxed iframe and injects a Web Worker for off-main-thread ML inference.
-  - Loads a model (based on the provided `model_path` URL) and runs inference on a hard-coded input (`[1, 2, 3]`).
-  - Returns the inference result back to the Streamlit app and displays it on the page.
+- Provides a sidebar UI where you can specify the model URL, toggle HTTPS enforcement, and adjust up to 3 input values via sliders.
+- Embeds the secure-context component in the page, enforcing COOP, COEP, and CSP headers.
+- Spins up a sandboxed iframe and injects a Web Worker for off-main-thread ML inference.
+- On clicking 'Run Inference', loads the model, runs inference on your inputs, and returns the result to the Streamlit app for display.
 
 Follow these steps for an end-to-end demonstration of the secure ML inference pipeline:
 

@@ -1,46 +1,47 @@
 <!-- examples/README.md -->
-# Examples for streamlit-secure-context
+# Streamlit Secure Context Demos
 
-This directory contains example apps demonstrating how to use the `streamlit-secure-context` Streamlit component.
+This directory provides a multipage Streamlit demo for the `streamlit-secure-context` component:
 
-## Prerequisites
-- Node.js & npm
-- Python 3.7+
-- Streamlit 0.63+
+- **app.py**: Entrypoint with a landing page and sidebar **Pages** menu.
+- **pages/**: Contains individual demo pages:
+  - `image_demo.py`: Secure Image Processing Demo (grayscale/invert filters inside a sandbox).
+  - `interactive_demo.py`: Interactive Iris Inference Demo (adjustable sliders).
+  - `simple_demo.py`: Simple Iris Inference Demo (one-shot inference).
 
 ## Setup
-1. Build the frontend:
-   ```bash
-   cd frontend
-   npm install
-   npm run build
-   cd ..
-   ```
-   Alternatively, run the helper script from the project root to build, copy assets, and install:
-   ```bash
-   ./scripts/bootstrap.sh
-   ```
-2. Install the Python package (editable mode recommended):
-   ```bash
-   pip install -e .
-   ```
 
-## Running the Demo
-Start the unified Streamlit app:
-
+From the project root:
 ```bash
-streamlit run examples/demo.py
+./scripts/bootstrap.sh
+pip install -e .
+pip install streamlit
 ```
-You can modify `demo.py` to adjust model URLs or inference parameters.
 
-### Capturing Screenshots
-Capture a screenshot of the unified demo using Playwright:
+## Running the Demos
+
 ```bash
-# from repo root
+cd examples
+streamlit run app.py
+```
+Use the **☰ Pages** menu in the top-left to switch between the two demos.
+
+## Capturing Screenshots
+
+```bash
+# Install Playwright & browser
 pip install playwright
 playwright install chromium
+
+# Capture Secure Image Processing demo
 python3 scripts/capture_demo_screenshots.py \
-  examples/demo.py --port 8501 --output screenshots/demo.png
+  examples/pages/image_demo.py --port 8501 --output screenshots/image_demo.png
+
+# Capture Interactive Iris demo
+python3 scripts/capture_demo_screenshots.py \
+  examples/pages/interactive_demo.py --port 8501 --output screenshots/interactive_demo.png
+
+# Capture Simple Iris demo
+python3 scripts/capture_demo_screenshots.py \
+  examples/pages/simple_demo.py --port 8501 --output screenshots/simple_demo.png
 ```
-The file `screenshots/demo.png` will be created.
-<!-- Image classification demo removed; refer to Demo Mode in basic_demo.py -->

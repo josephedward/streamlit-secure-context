@@ -81,7 +81,11 @@ def main():
     parser = argparse.ArgumentParser(description="Capture Streamlit demo screenshots.")
     parser.add_argument("demo_script", help="Path to the Streamlit Python script to run.")
     parser.add_argument("--port", type=int, default=8501, help="Port to run the demo on.")
-    parser.add_argument("--output", default="screenshots/demo.png", help="Output screenshot path.")
+    parser.add_argument(
+        "--output",
+        default="examples/screenshots/demo.png",
+        help="Output screenshot path (e.g. examples/screenshots/demo.png)."
+    )
     parser.add_argument("--mode", choices=["interactive", "simple"],
                         help="Demo mode to select before screenshot (e.g., simple or interactive)")
     parser.add_argument("--video-output", default=None,

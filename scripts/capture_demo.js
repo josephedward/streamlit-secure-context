@@ -9,11 +9,16 @@
  *        streamlit run examples/basic_demo.py
  *   2. Install Puppeteer:
  *        npm install puppeteer
- *   3. Run this script:
+ *   3. Run this script (default capture for the basic demo):
  *        node scripts/capture_demo.js
+ *   4. Optional: specify URL and output path for other demos:
+ *        node scripts/capture_demo.js http://localhost:8501 screenshots/basic_demo_screenshot.png
+ *        node scripts/capture_demo.js http://localhost:8501 screenshots/simple_demo_screenshot.png
  *
  * Output:
- *   - screenshots/demo_screenshot.png
+ *   - screenshots/demo_screenshot.png      (default basic demo)
+ *   - screenshots/basic_demo_screenshot.png
+ *   - screenshots/simple_demo_screenshot.png
  */
 const puppeteer = require('puppeteer');
 const fs = require('fs');

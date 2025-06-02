@@ -4,10 +4,9 @@
 This directory provides a multipage Streamlit demo for the `streamlit-secure-context` component:
 
 - **app.py**: Entrypoint with a landing page and sidebar **Pages** menu.
-- **pages/**: Contains individual demo pages:
-  - `image_demo.py`: Secure Image Processing Demo (grayscale/invert filters inside a sandbox).
-  - `interactive_demo.py`: Interactive Iris Inference Demo (adjustable sliders).
-  - `simple_demo.py`: Simple Iris Inference Demo (one-shot inference).
+* **pages/**: Contains individual demo pages:
+  - `image_demo.py`: Secure Image Processing Demo (grayscale/invert filter).
+  - `iris_demo.py`: Interactive Iris Inference Demo (adjustable sliders).
 
 ## Setup
 
@@ -24,7 +23,9 @@ pip install streamlit
 cd examples
 streamlit run app.py
 ```
-Use the **☰ Pages** menu in the top-left to switch between the two demos.
+Use the **☰ Pages** menu in the top-left to switch between:
+- Simple Iris inference
+- Interactive Iris inference
 
 ## Capturing Screenshots
 
@@ -33,15 +34,12 @@ Use the **☰ Pages** menu in the top-left to switch between the two demos.
 pip install playwright
 playwright install chromium
 
-# Capture Secure Image Processing demo
+
+# Capture Image Processing demo
 python3 scripts/capture_demo_screenshots.py \
   examples/pages/image_demo.py --port 8501 --output screenshots/image_demo.png
 
-# Capture Interactive Iris demo
+# Capture Iris Inference demo
 python3 scripts/capture_demo_screenshots.py \
-  examples/pages/interactive_demo.py --port 8501 --output screenshots/interactive_demo.png
-
-# Capture Simple Iris demo
-python3 scripts/capture_demo_screenshots.py \
-  examples/pages/simple_demo.py --port 8501 --output screenshots/simple_demo.png
+  examples/pages/iris_demo.py --port 8501 --output screenshots/iris_demo.png
 ```

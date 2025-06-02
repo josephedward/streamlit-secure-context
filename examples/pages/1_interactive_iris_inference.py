@@ -1,22 +1,20 @@
 """
 Interactive Iris Inference Demo (Page)
 
-Demonstrates secure ML inference in the browser with adjustable Iris feature sliders
-and security settings.
+Use adjustable Iris feature sliders and custom security settings to perform
+TensorFlow.js inference inside a secure iframe + Web Worker.
 """
 import streamlit as st
 from streamlit_secure_context import streamlit_secure_context
 
-st.title("Iris Inference: Interactive Demo")
+st.title("Interactive Iris Inference Demo")
 
-# Sidebar: Model configuration
-model_url = st.sidebar.text_input(
+# Sidebar: model configuration and security
+iris_model_url = st.sidebar.text_input(
     "Model URL",
     value="https://storage.googleapis.com/tfjs-models/tfjs/iris_v1/model.json",
     help="HTTPS URL to a TFJS GraphModel (e.g., Iris classifier)",
 )
-
-# Sidebar: Security settings
 require_https = st.sidebar.checkbox(
     "Require HTTPS",
     value=False,
@@ -34,7 +32,7 @@ security_config = {
     "sandbox": ["allow-scripts", "allow-same-origin"],
 }
 
-# Sidebar: Inference parameters for Iris features
+# Sidebar: Iris feature sliders
 st.sidebar.header("Inference Parameters (Iris)")
 sepal_length = st.sidebar.slider("Sepal length (cm)", 0.0, 10.0, 5.1, 0.1)
 sepal_width  = st.sidebar.slider("Sepal width (cm)",  0.0, 10.0, 3.5, 0.1)
@@ -45,20 +43,19 @@ inference_params = {
     "shape": [1, 4],
 }
 
-# Display configuration and run inference
 st.write("## Configuration")
-st.write(f"- Model URL: {model_url}")
+st.write(f"- Model URL: {iris_model_url}")
 st.write(f"- requireHTTPS: {require_https}")
 st.write(f"- Input: {inference_params['input']}")
 
 if st.button("Run Inference"):
     with st.spinner("Running secure inference..."):
         result = streamlit_secure_context(
-            model_path=model_url,
+            model_path=iris_model_url,
             security_config=security_config,
             inference_params=inference_params,
         )
     st.subheader("Result")
     st.write(result)
 else:
-    st.info("Adjust settings and click 'Run Inference'.")
+    st.info("Adjust sliders and click 'Run Inference'.")

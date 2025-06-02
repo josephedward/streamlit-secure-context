@@ -170,8 +170,10 @@ import capture_demo_screenshots
 def test_capture_pages(tmp_path, script, port, img_name, vid_name):
     """Capture screenshot and video for each demo script."""
     demo_script = str(Path(script).absolute())
-    screenshot_file = tmp_path / img_name
-    video_file = tmp_path / vid_name
+    screenshot_file = Path("screenshots") / img_name
+    video_file = Path("screenshots/videos") / vid_name
+    screenshot_file.parent.mkdir(parents=True, exist_ok=True)
+    video_file.parent.mkdir(parents=True, exist_ok=True)
     try:
         capture_demo_screenshots.capture(
             demo_script,

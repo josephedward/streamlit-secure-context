@@ -83,9 +83,7 @@ if st.button("Run Iris Inference"):
         inference_params=params,
         height=300,
     )
-    st.write("Result:", res)import streamlit as st
-import base64
-from streamlit_secure_context import streamlit_secure_context
+    st.write("Result:", res)
 
 # 1) Sidebar selector for page
 page = st.sidebar.selectbox("Select Demo", ["Image Processing", "Iris Inference"])

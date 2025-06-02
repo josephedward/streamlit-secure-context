@@ -36,7 +36,7 @@ else:
     # In release mode, load assets from the CDN (unpkg)
     _streamlit_secure_context = components.declare_component(
         "streamlit_secure_context",
-        url="https://unpkg.com/streamlit-secure-context@0.1.0/dist/",
+        url="https://unpkg.com/streamlit-secure-context@0.1.5/dist/",
     )
 
 def streamlit_secure_context(
@@ -74,8 +74,9 @@ def streamlit_secure_context(
     )
     ```
     """
-    # Set timeout for component call (0 = no timeout) and forward other kwargs
-    component_kwargs['timeout'] = timeout
+    # Only forward timeout if non-zero (0 = no timeout)
+    if timeout:
+        component_kwargs['timeout'] = timeout
     # Forward additional kwargs (e.g., height, width) to the Streamlit component
     try:
         return _streamlit_secure_context(

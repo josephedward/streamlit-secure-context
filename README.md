@@ -31,6 +31,7 @@ This repository provides a secure machine learning inference component for Strea
 - Node.js & npm
 - Python 3.7+
 - Streamlit 0.63+
+  - (Multipage) file watching disabled by default via `.streamlit/config.toml`
 
 ## Installation
 ```bash
@@ -136,35 +137,30 @@ Happy building! 🎉
 
 ## Demo
 
-After installation and build (see above), start the unified demo:
+After installation and build (see above), start the multipage demo:
 
 ```bash
-streamlit run examples/demo.py
+streamlit run examples/app.py
 ```
-This app includes:
-  - **Image Classification**: MobileNet inference in a sandboxed iframe + Web Worker
-  - **Iris Inference**: TFJS Iris model with interactive sliders
+Use the **Pages** menu (☰) in the top-left to select:
+  - **Simple Iris Inference** — one-shot demo with default inputs  
+  - **Interactive Iris Inference** — slider-based demo with configurable settings  
 
 ### Capturing Screenshots & Videos
-You can capture screenshots and record videos of the unified demo using Playwright:
-
+You can capture screenshots and videos of all demos with the helper script:
 ```bash
 # Install Playwright & browser
 pip install playwright
 playwright install chromium
 
-# Ensure output directories exist
-mkdir -p screenshots videos
-
-# Capture screenshot & video of unified demo
-python3 scripts/capture_demo_screenshots.py \
-  examples/demo.py --port 8501 \
-  --output screenshots/demo.png \
-  --video-output videos/demo.webm
+# Run the capture-all script
+chmod +x scripts/capture_all_demos.sh
+./scripts/capture_all_demos.sh
 ```
+Screenshots will be in `screenshots/` and recordings in `videos/`.
 
 ## How It Works
-When you run the demo with `streamlit run examples/demo.py`, here's what happens:
+When you run the demo with `streamlit run examples/app.py`, here's what happens:
 
 **1. Streamlit one-liner**  
 Your Python code invokes `streamlit_secure_context(...)`, which loads the low-level component.

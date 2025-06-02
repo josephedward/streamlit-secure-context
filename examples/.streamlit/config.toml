@@ -1,0 +1,10 @@
+# Streamlit configuration for the examples folder
+[server]
+# Run in headless mode when using scripts to capture screenshots
+headless = true
+# Default port for local demos
+port = 8501
+# Disable CORS checks for local development
+enableCORS = false
+# Disable XSRF protection for simpler local testing
+enableXsrfProtection = false

@@ -14,3 +14,5 @@ frontend/build/
 # Virtualenv
 .venv/
 .aider*
+
+misc

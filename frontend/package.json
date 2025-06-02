@@ -9,6 +9,9 @@
   },
   "scripts": {
     "start": "npx streamlit-component-lib start",
-    "build": "npx streamlit-component-lib build"
+    "build": "node scripts/esbuild.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.17.19"
   }
 }

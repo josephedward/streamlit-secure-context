@@ -12,15 +12,25 @@ _RELEASE = False
 # Compute path to the frontend build directory
 _MODULE_DIR = os.path.abspath(os.path.dirname(__file__))
 _ROOT_DIR = os.path.abspath(os.path.join(_MODULE_DIR, os.pardir))
-_BUILD_DIR = os.path.join(_ROOT_DIR, "frontend", "build")
+# Possible local build locations
+_PKG_BUILD_DIR = os.path.join(_MODULE_DIR, "frontend", "build")
+_ROOT_BUILD_DIR = os.path.join(_ROOT_DIR, "frontend", "build")
 
 if not _RELEASE:
-    # During development, serve the component assets from the local frontend build
-    if not os.path.isdir(_BUILD_DIR):
-        raise StreamlitAPIException(f"Frontend build not found at {_BUILD_DIR}. Please run 'npm install && npm run build' in the frontend directory.")
+    # During development, serve component assets from local build
+    if os.path.isdir(_PKG_BUILD_DIR):
+        _component_path = _PKG_BUILD_DIR
+    elif os.path.isdir(_ROOT_BUILD_DIR):
+        _component_path = _ROOT_BUILD_DIR
+    else:
+        raise StreamlitAPIException(
+            f"Could not find component build directory at '{_PKG_BUILD_DIR}' or '{_ROOT_BUILD_DIR}'. "
+            "Please run 'npm install && npm run build' in the 'frontend' folder, "
+            "or use './scripts/bootstrap.sh'."
+        )
     _streamlit_secure_context = components.declare_component(
         "streamlit_secure_context",
-        path=_BUILD_DIR,
+        path=_component_path,
     )
 else:
     # In release mode, load assets from the CDN (unpkg)

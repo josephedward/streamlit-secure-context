@@ -143,7 +143,9 @@ chmod +x scripts/capture_all_demos.sh
 ```
 
 This will save:
-  - `screenshots/demo.png` (default view of the unified demo)
+  - `screenshots/basic_demo_interactive.png` — Iris interactive demo
+  - `screenshots/basic_demo_simple.png` — Iris simple demo
+  - `screenshots/image_demo.png` — Image classification demo
 
 To capture a specific demo manually, you can call the Python script directly. For example:
 ```bash

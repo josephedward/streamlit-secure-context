@@ -13,7 +13,7 @@
  *        node scripts/capture_demo.js
  *
  * Output:
- *   - scripts/demo_screenshot.png
+ *   - screenshots/demo_screenshot.png
  */
 const puppeteer = require('puppeteer');
 const fs = require('fs');

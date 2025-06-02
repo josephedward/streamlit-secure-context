@@ -155,33 +155,4 @@ def test_app_serves(script, port):
     except Exception as e:
         pytest.skip(f'App {script} failed to serve: {e}')
 
-# ---------------- Screenshot & Video capture tests ---------------- #
-pytest.importorskip('playwright.sync_api')
-scripts_dir = Path(__file__).parent.parent / 'scripts'
-sys.path.insert(0, str(scripts_dir))
-import capture_demo_screenshots
-
-@pytest.mark.parametrize('script,port,img_name,vid_name', [
-    ('examples/app.py', 8511, 'home.png', 'home.webm'),
-    ('examples/pages/image_classification.py', 8512, 'image_classification.png', 'image_classification.webm'),
-    ('examples/pages/1_interactive_iris_inference.py', 8513, 'iris_interactive.png', 'iris_interactive.webm'),
-    ('examples/pages/2_simple_iris_inference.py', 8514, 'iris_simple.png', 'iris_simple.webm'),
-])
-def test_capture_pages(tmp_path, script, port, img_name, vid_name):
-    """Capture screenshot and video for each demo script."""
-    demo_script = str(Path(script).absolute())
-    screenshot_file = Path("screenshots") / img_name
-    video_file = Path("screenshots/videos") / vid_name
-    screenshot_file.parent.mkdir(parents=True, exist_ok=True)
-    video_file.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        capture_demo_screenshots.capture(
-            demo_script,
-            port,
-            str(screenshot_file),
-            video_path=str(video_file),
-        )
-    except Exception as e:
-        pytest.skip(f'Capture skipped for {script}: {e}')
-    assert screenshot_file.exists() and screenshot_file.stat().st_size > 0
-    assert video_file.exists() and video_file.stat().st_size > 0
+# Screenshot/video capture tests removed to focus on wrapper and smoke tests

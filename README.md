@@ -115,8 +115,9 @@ Automates building the frontend and installing the Python package.
 
 ## Demo
 
-This demo launches a simple Streamlit app that:
-- Provides a sidebar UI where you can specify the model URL (default: Iris GraphModel) and adjust the four Iris feature values via sliders.
+- This demo launches a fully interactive Streamlit app that:
+- Provides a sidebar UI where you can specify the model URL (default: https://storage.googleapis.com/tfjs-models/tfjs/iris_v1/model.json) and adjust the four Iris feature values via sliders.
+  By default it’s pre-configured with the Iris TFJS GraphModel (inputs shaped [1,4]) and will return class-probability arrays.
 - Embeds the secure-context component in the page, enforcing COOP, COEP, and CSP headers.
 - Spins up a sandboxed iframe and injects a Web Worker for off-main-thread ML inference.
 - On clicking 'Run Inference', loads the model, runs inference on your inputs, and returns the result to the Streamlit app for display.

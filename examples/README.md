@@ -25,17 +25,13 @@ This directory contains example apps demonstrating how to use the `streamlit-sec
    pip install -e .
    ```
 
-## Running the Demos
-You can run each example separately:
+## Running the Demo
+Start the unified Streamlit app:
 
 ```bash
-# Iris inference demo (TFJS GraphModel with slider inputs)
-streamlit run examples/basic_demo.py
-
-# Image processing demo (grayscale/invert in sandbox)
-streamlit run examples/image_demo.py
+streamlit run examples/demo.py
 ```
-Modify the scripts to point at your own model URLs or images.
+You can modify `demo.py` to adjust model URLs or inference parameters.
 
 ### Capturing Screenshots
 Capture a screenshot of the unified demo using Playwright:

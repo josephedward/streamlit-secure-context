@@ -41,4 +41,4 @@ document.getElementById('imginput').onchange = async function(evt) {
 '''
 
 # Render inside the secure context component
-streamlit_secure_context(html_code, height=600)
+streamlit_secure_context(html_code)

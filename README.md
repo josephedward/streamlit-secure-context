@@ -1,3 +1,12 @@
+## Integration Ideas
+Here are some ways to integrate the `streamlit_secure_context` component into your own Streamlit applications:
+- Data Annotation: Embed the component in a labeling UI to preview model inferences on user-uploaded data before finalizing annotations.
+- Interactive Dashboards: Offload client-side inference to reduce server load, enabling live model predictions in real-time dashboards.
+- Privacy-First Forms: Incorporate secure inference in forms that process sensitive inputs (e.g., images, documents) entirely in the browser.
+- Model Comparison: Render multiple iframes side-by-side to compare outputs of different models or versions without server-side conflict.
+- Edge Deployments: Package your app as a Progressive Web App (PWA) and run models on-device for offline or low-latency scenarios.
+- Custom Workflows: Extend the Web Worker to support ONNX, TFLite, or other web-compatible runtimes for custom inference pipelines.
+Use these ideas to build richer, more performant, and privacy-conscious Streamlit applications with client-side ML.
 # streamlit-secure-context
 
 This repository provides a secure machine learning inference component for Streamlit, leveraging modern browser security features (HTTPS enforcement, Cross-Origin Isolation, and CSP) and a worker-based inference pipeline inside a sandboxed iframe.
@@ -146,11 +155,15 @@ playwright install chromium
 # Ensure output directories exist
 mkdir -p screenshots videos
 
-## Under the Hood
+# Capture screenshot & video of unified demo
+python3 scripts/capture_demo_screenshots.py \
+  examples/demo.py --port 8501 \
+  --output screenshots/demo.png \
+  --video-output videos/demo.webm
+```
 
-## Under the Hood
-
-When you run the example with `streamlit run examples/basic_demo.py`, here's what happens behind the scenes:
+## How It Works
+When you run the demo with `streamlit run examples/demo.py`, here's what happens:
 
 **1. Streamlit one-liner**  
 Your Python code invokes `streamlit_secure_context(...)`, which loads the low-level component.

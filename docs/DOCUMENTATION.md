@@ -8,11 +8,11 @@ For a detailed project overview, usage examples, and API reference, see the root
 
 ## 2. Packaging & Distribution
 
-Full packaging and PyPI distribution instructions are in [PACKAGING.md](PACKAGING.md).
+Packaging and distribution instructions are provided in the root repository documentation (see `README.md`).
 
 ## 3. Extending the Worker for Real ML Inference
 
-Guides and code samples for integrating TensorFlow.js and ONNX Runtime Web into `worker.js` are in [EXTENDING_WORKER.md](EXTENDING_WORKER.md).
+For extending the worker with TensorFlow.js or ONNX Runtime Web, refer to the inline comments in `frontend/public/worker.js` and the root documentation under "Extending the Worker".
 
 ## 4. Security Policy Considerations
 
@@ -72,12 +72,11 @@ Tips:
 ```
 <project-root>/
 ├── docs/                        # Documentation folder
-│   ├── DOCUMENTATION.md         # This summary file
-│   ├── PACKAGING.md             # Packaging & distribution guide
-│   └── EXTENDING_WORKER.md      # Worker extension guide
+│   ├── README.md                # Index of documentation
+│   └── DOCUMENTATION.md         # Comprehensive documentation
 ├── frontend/                    # React code & build config
 ├── scripts/                     # Build & release automation scripts
-├── streamlit_secure_context/         # Python wrapper package
+├── streamlit_secure_context/    # Python wrapper package
 ├── setup.py                     # Python package setup
 └── README.md                    # Project overview & API reference
 ```

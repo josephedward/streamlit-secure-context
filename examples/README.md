@@ -34,36 +34,41 @@ This will launch a web browser window showing a simple app that uses the secure 
 
 You can modify `basic_demo.py` to point at your own model URL or adjust inference parameters.
 
-## Running the Simple Demo
+## Demo Modes
 
-For a minimal one-line example that runs inference immediately:
+The `basic_demo.py` script supports two modes via the **Demo Mode** selector in the sidebar:
+1. **Interactive**: Full UI with model URL input, HTTPS toggle, and four Iris feature sliders.
+2. **Simple**: One-shot inference using fixed Iris inputs (`[5.1, 3.5, 1.4, 0.2]`) and no additional UI.
+
+### Capturing Screenshots
+After selecting your mode and running the app, capture a screenshot with Puppeteer:
 ```bash
-streamlit run examples/simple_demo.py
+# Install Puppeteer if needed
+npm install puppeteer
+
+# Capture the current mode of basic_demo
+node scripts/capture_demo.js \
+  http://localhost:8501 \
+  screenshots/basic_demo_<mode>_screenshot.png
 ```
-This demo uses a fixed Iris TFJS model and hard-coded inputs to demonstrate secure ML inference with no extra UI.
+Replace `<mode>` with `interactive` or `simple`.  Screenshot files will be saved in `screenshots/`.
+## Running the Image Classification Demo
 
-Since we can’t bundle a real browser screenshot here, you can generate one yourself in two minutes:
-
-1. Start the simple demo  
-   ```bash
-   streamlit run examples/simple_demo.py
-   ```
-2. In a second terminal, install Puppeteer and capture the screenshot  
-   ```bash
-   npm install puppeteer
-   node scripts/capture_demo.js http://localhost:8501 screenshots/simple_demo_screenshot.png
-   ```
-   The script will auto-create the `screenshots/` folder if needed.
-
-3. Open `screenshots/simple_demo_screenshot.png` to see the result:  
-   ![Simple Demo Screenshot](screenshots/simple_demo_screenshot.png)
-
-If you prefer Playwright instead of Puppeteer:
-
+In one terminal, start the secure image demo:
 ```bash
-pip install playwright
-playwright install chromium
-python scripts/capture_demo_screenshots.py
+streamlit run examples/image_demo.py
 ```
+This page lets you choose an image file; a MobileNet model loads from CDN inside a sandboxed iframe/Web Worker
+and classifies the image entirely in-browser, displaying the top prediction.
 
-Either approach will give you a PNG of the simple demo for your docs or slides.
+### Capturing a Screenshot of the Image Demo
+```bash
+# Ensure Puppeteer is installed:
+npm install puppeteer
+
+# Capture the image demo:
+node scripts/capture_demo.js \
+  http://localhost:8501 \
+  screenshots/image_demo_screenshot.png
+```
+The screenshot will be saved at `screenshots/image_demo_screenshot.png`.

@@ -140,10 +140,7 @@ def test_demo_pages_serve(script, port):
     """
     Smoke-test that each demo page starts and serves content at the given port.
     """
-    try:
-        run_streamlit_demo(script, port)
-    except Exception as e:
-        pytest.skip(f'Demo {script} failed to start or serve: {e}')
+    run_streamlit_demo(script, port)
 
 # ---------------- Screenshot capture tests ---------------- #
 
@@ -160,10 +157,7 @@ def test_capture_interactive_demo(tmp_path):
     demo = str(Path('examples/demo.py').absolute())
     output_file = tmp_path / 'interactive_demo.png'
     port = 8510
-    try:
-        capture_demo_screenshots.capture(demo, port, str(output_file))
-    except Exception as e:
-        pytest.skip(f'Screenshot capture skipped due to error: {e}')
+    capture_demo_screenshots.capture(demo, port, str(output_file))
     assert output_file.exists(), 'Screenshot file was not created'
     assert output_file.stat().st_size > 0, 'Screenshot file is empty'
 
@@ -177,13 +171,10 @@ def test_capture_demo_modes(tmp_path, record_video_dir, mode, screenshot_name, v
     port = 8501
     screenshot_file = tmp_path / screenshot_name
     video_file = tmp_path / video_name
-    try:
-        capture_demo_screenshots.capture(
-            demo, port, str(screenshot_file),
-            mode=mode, video_output=str(video_file)
-        )
-    except Exception as e:
-        pytest.skip(f'Capture skipped due to error: {e}')
+    capture_demo_screenshots.capture(
+        demo, port, str(screenshot_file),
+        mode=mode, video_output=str(video_file)
+    )
     assert screenshot_file.exists(), "Screenshot file was not created"
     assert screenshot_file.stat().st_size > 0, "Screenshot file is empty"
     assert video_file.exists(), "Video file was not created"

@@ -146,24 +146,7 @@ playwright install chromium
 # Ensure output directories exist
 mkdir -p screenshots videos
 
-python3 scripts/capture_demo_screenshots.py \
-  examples/demo.py --port 8501 \
-  --output screenshots/demo.png \
-  --video-output videos/demo.webm
-python3 scripts/capture_demo_screenshots.py \
-  examples/demo.py --port 8501 \
-  --output screenshots/iris_interactive.png \
-  --mode interactive \
-  --video-output videos/iris_interactive.webm
-
-# 3. Capture Iris Inference demo (Simple mode)
-python3 scripts/capture_demo_screenshots.py \
-  examples/demo.py --port 8501 \
-  --output screenshots/iris_simple.png \
-  --mode simple \
-  --video-output videos/iris_simple.webm
-```
-Screenshots go into `screenshots/` and WebM recordings into `videos/`.
+## Under the Hood
 
 ## Under the Hood
 

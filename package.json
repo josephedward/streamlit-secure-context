@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "build": "cd frontend && npm run build",
-    "start": "cd frontend && npm start"
+    "build": "cd frontend && npm install && npm run build",
+    "start": "cd frontend && npm install && npm start"
   },
   "dependencies": {
     "npm-force-resolutions": "^0.0.10"

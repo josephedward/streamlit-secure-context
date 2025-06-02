@@ -114,6 +114,12 @@ Automates building the frontend and installing the Python package.
 
 
 ## Demo
+For a minimal one-line demo (no sidebar UI), run:
+
+```bash
+streamlit run examples/simple_demo.py
+```
+Or use the interactive demo below for a richer experience.
 
 - This demo launches a fully interactive Streamlit app that:
 - Provides a sidebar UI where you can specify the model URL (default: https://storage.googleapis.com/tfjs-models/tfjs/iris_v1/model.json), toggle HTTPS enforcement, and adjust four Iris feature sliders (sepal & petal length/width).

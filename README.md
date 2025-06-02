@@ -58,6 +58,7 @@ pip install .
 import streamlit as st
 from streamlit_secure_context import streamlit_secure_context
 
+# Basic usage with optional timeout
 result = streamlit_secure_context(
     model_path="https://storage.googleapis.com/tfjs-models/tfjs/iris_v1/model.json",
     security_config={
@@ -73,8 +74,9 @@ result = streamlit_secure_context(
     },
     inference_params={"input": [[5.1, 3.5, 1.4, 0.2]], "shape": [1, 4]},
     key="example1",
-    height=600,    # optional: specify component height in pixels
-    width=800,     # optional: specify component width in pixels
+    height=600,    # optional: component height in px
+    width=800,     # optional: component width in px
+    timeout=30,    # optional: seconds to wait for component initialization
 )
 st.write("Inference result:", result)
 ```
@@ -143,8 +145,8 @@ After installation and build (see above), start the multipage demo:
 streamlit run examples/app.py
 ```
 Use the **Pages** menu (☰) in the top-left to select:
-  - **Simple Iris Inference** — one-shot demo with default inputs  
-  - **Interactive Iris Inference** — slider-based demo with configurable settings  
+  - **Image Processing** — apply grayscale/invert to an image entirely in-browser
+  - **Iris Inference** — interactive TFJS GraphModel inference demo with sliders
 
 ### Capturing Screenshots & Videos
 You can capture screenshots and videos of all demos with the helper script:

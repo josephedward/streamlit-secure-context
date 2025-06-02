@@ -60,10 +60,17 @@ def streamlit_secure_context(
     - For HIPAA compliance, ensure `requireHTTPS` is enabled, host assets locally, and keep PHI processing within the client browser.
     """
     # Forward additional kwargs (e.g., height, width) to the Streamlit component
-    return _streamlit_secure_context(
-        modelPath=model_path,
-        securityConfig=security_config or {},
-        inferenceParams=inference_params or {},
-        key=key,
-        **component_kwargs,
-    )
+    try:
+        return _streamlit_secure_context(
+            modelPath=model_path,
+            securityConfig=security_config or {},
+            inferenceParams=inference_params or {},
+            key=key,
+            **component_kwargs,
+        )
+    except Exception as e:
+        # Provide a clearer error message on timeout or component failure
+        raise StreamlitAPIException(
+            f"streamlit_secure_context failed or timed out: {e}\n"
+            "Ensure the frontend is built (npm run build), modelPath is reachable, and security settings are correct."
+        )

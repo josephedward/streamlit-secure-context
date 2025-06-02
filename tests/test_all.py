@@ -9,6 +9,7 @@ import sys
 import os
 import subprocess
 import urllib.request
+import urllib.error
 import time
 import importlib
 import types
@@ -121,11 +122,19 @@ def run_streamlit_demo(script_path, port, timeout=10):
     ]
     proc = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     try:
-        time.sleep(timeout)
+        deadline = time.time() + timeout
         url = f'http://localhost:{port}'
-        with urllib.request.urlopen(url) as resp:
-            html = resp.read().decode('utf-8', errors='ignore')
-            assert '<title>' in html or '<head>' in html
+        html = ''
+        while True:
+            try:
+                with urllib.request.urlopen(url) as resp:
+                    html = resp.read().decode('utf-8', errors='ignore')
+                break
+            except urllib.error.URLError:
+                if time.time() > deadline:
+                    raise
+                time.sleep(0.5)
+        assert '<title>' in html or '<head>' in html
     finally:
         proc.terminate()
         try:

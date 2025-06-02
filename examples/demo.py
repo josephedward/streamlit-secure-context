@@ -120,7 +120,7 @@ if page == "Image Processing":
         "sandbox": ["allow-scripts", "allow-same-origin"],
     }
 
-    if st.button("Process Image"):
+    if st.button("Process Image", key="process_image"):
         res = streamlit_secure_context(
             model_path="",
             security_config=security_config,

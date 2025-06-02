@@ -34,6 +34,40 @@ Guides and code samples for integrating TensorFlow.js and ONNX Runtime Web into 
    streamlit run examples/app.py
    ```
 
+## Under the Hood: Secure ML Inference Pipeline
+
+When you run the example app with `streamlit run examples/basic_demo.py`, the component orchestrates a secure, client-side inference pipeline:
+
+1. Streamlit one-liner
+   - The Python call to `streamlit_secure_context(...)` invokes the low-level component implementation.
+
+2. Bootstrapping a sandboxed iframe
+   - A `<meta>` tag sets your Content Security Policy (CSP).
+   - Cross-Origin Opener Policy (COOP) and Cross-Origin Embedder Policy (COEP) headers enable cross-origin isolation.
+   - The iframe uses a sandbox attribute (`allow-scripts`, `allow-same-origin`) for strict isolation.
+
+3. Spawning a Web Worker
+   - Inside the iframe (`model_iframe.html`), a Worker is created for off-main-thread execution.
+   - The parent frame sends `INIT` with the model URL to load the ML runtime.
+
+4. Model loading & inference off-thread
+   - Workers load one of:
+     - TensorFlow.js GraphModel (`tf.loadGraphModel`)
+     - TFLite via `@tensorflow/tfjs-tflite`
+     - ONNX Runtime Web (`onnxruntime-web`)
+   - Once loaded (`INIT_DONE`), the parent sends an `INFER` message with `inference_params`.
+   - The Worker runs inference and posts back `RESULT` with the output data.
+
+5. Round-trip back to Python
+   - The React component listens for the Worker’s `RESULT` message.
+   - It forwards the data via `Streamlit.setComponentValue(result)`.
+   - Your Python app receives the tensor array and displays it with `st.write`.
+
+Tips:
+- Inspect DevTools → Application → Frames to verify iframe isolation.
+- Use `console.log` in `worker.js` or `model_iframe.html` to trace messages.
+- Plug in a real ML model URL and add a `shape` to `inference_params` to see real inference results.
+
 ## 6. Directory Structure
 ```
 <project-root>/

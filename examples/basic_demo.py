@@ -38,13 +38,18 @@ security_config = {
     "sandbox": ["allow-scripts", "allow-same-origin"],
 }
 
-inference_params = {"input": [1, 2, 3]}
+st.sidebar.header("Inference Params")
+user_input = st.sidebar.text_input("Input array (comma-separated)", "1,2,3")
+input_list = [int(x.strip()) for x in user_input.split(",") if x.strip().isdigit()]
+inference_params = {"input": input_list}
 
-result = streamlit_secure_context(
-    model_path=model_url,
-    security_config=security_config,
-    inference_params=inference_params,
-    key="demo1",
-)
-
-st.write("Inference result:", result)
+if st.sidebar.button("Run Inference"):
+    result = streamlit_secure_context(
+        model_path=model_url,
+        security_config=security_config,
+        inference_params=inference_params,
+        key="demo1",
+    )
+    st.write("Inference result:", result)
+else:
+    st.write("Change input in sidebar and click 'Run Inference'")

@@ -116,7 +116,7 @@ Automates building the frontend and installing the Python package.
 ## Demo
 
 This demo launches a simple Streamlit app that:
-- Provides a sidebar UI where you can specify the model URL, toggle HTTPS enforcement, and adjust up to 3 input values via sliders.
+- Provides a sidebar UI where you can specify the model URL (default: Iris GraphModel) and adjust the four Iris feature values via sliders.
 - Embeds the secure-context component in the page, enforcing COOP, COEP, and CSP headers.
 - Spins up a sandboxed iframe and injects a Web Worker for off-main-thread ML inference.
 - On clicking 'Run Inference', loads the model, runs inference on your inputs, and returns the result to the Streamlit app for display.

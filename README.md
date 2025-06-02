@@ -106,6 +106,15 @@ Placeholder for inference logic. Responds to `INIT` (model loading) and `INFER` 
 ```
 Automates building the frontend and installing the Python package. 
 
+## Next Steps
+
+- Customize CSP and sandbox flags for your deployment.
+- Integrate your actual ML model (ONNX/TFLite/TFJS) as shown in the worker guides.
+- Consider CI/CD automation to publish releases automatically.
+
+Happy building! 🎉
+
+
 ## Secure Deployment
 
 - HTTPS everywhere: Configure your Streamlit server to use TLS certificates (see docs for `server.sslCert` and `server.key` options).
@@ -117,23 +126,17 @@ Automates building the frontend and installing the Python package.
 
 ## Demo
 
-After installation and build (see above), you can run the individual demos:
+After installation and build (see above), start the unified demo:
 
 ```bash
-# Iris inference demo:
-streamlit run examples/basic_demo.py
-
-# Image processing demo:
-streamlit run examples/image_demo.py
+streamlit run examples/demo.py
 ```
-Each demo uses the secure-context component to launch a sandboxed iframe with a Web Worker:
-- **Iris demo**: performs TFJS GraphModel inference on client side with slider controls.
-- **Image demo**: applies grayscale or invert filters to an image entirely in-browser.
-
-<!-- Image classification demo removed; use Demo Mode in basic_demo.py -->
+This app includes:
+  - **Image Classification**: MobileNet inference in a sandboxed iframe + Web Worker
+  - **Iris Inference**: TFJS Iris model with interactive sliders
 
 ### Capturing Screenshots & Videos
-You can capture screenshots and record videos of each demo using Playwright:
+You can capture screenshots and record videos of the unified demo using Playwright:
 
 ```bash
 # Install Playwright & browser
@@ -143,13 +146,10 @@ playwright install chromium
 # Ensure output directories exist
 mkdir -p screenshots videos
 
-# 1. Capture Image Classification demo (default selection)
 python3 scripts/capture_demo_screenshots.py \
   examples/demo.py --port 8501 \
-  --output screenshots/image_demo.png \
-  --video-output videos/image_demo.webm
-
-# 2. Capture Iris Inference demo (Interactive mode)
+  --output screenshots/demo.png \
+  --video-output videos/demo.webm
 python3 scripts/capture_demo_screenshots.py \
   examples/demo.py --port 8501 \
   --output screenshots/iris_interactive.png \

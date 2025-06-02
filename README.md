@@ -164,6 +164,17 @@ Follow these steps for an end-to-end demonstration of the secure ML inference pi
 This will create:
 - `screenshots/demo_full.png` — full-page screenshot
 - `screenshots/demo_sidebar.png` — sidebar screenshot
+
+Alternatively, capture a live screenshot with Puppeteer:
+1. Install Puppeteer  
+   ```bash
+   npm install puppeteer
+   ```
+2. Run the capture script  
+   ```bash
+   node scripts/capture_demo.js
+   ```
+The screenshot will be saved as `scripts/demo_screenshot.png`.
    The screenshot will be saved as `scripts/demo_screenshot.png`.
 
 ## Under the Hood

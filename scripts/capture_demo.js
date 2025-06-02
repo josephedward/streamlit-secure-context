@@ -36,4 +36,18 @@ const puppeteer = require('puppeteer');
     console.error('Error capturing screenshot:', err);
     process.exit(1);
   }
+})();const puppeteer = require('puppeteer');
+
+(async () => {
+  // Launch headless Chromium
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  // Navigate to the running demo
+  await page.goto('http://localhost:8501', { waitUntil: 'networkidle2' });
+  // Capture full-page screenshot
+  await page.screenshot({
+    path: 'scripts/demo_screenshot.png',
+    fullPage: true,
+  });
+  await browser.close();
 })();

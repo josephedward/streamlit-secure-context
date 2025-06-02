@@ -7,6 +7,7 @@ Here are some ways to integrate the `streamlit_secure_context` component into yo
 - Edge Deployments: Package your app as a Progressive Web App (PWA) and run models on-device for offline or low-latency scenarios.
 - Custom Workflows: Extend the Web Worker to support ONNX, TFLite, or other web-compatible runtimes for custom inference pipelines.
 Use these ideas to build richer, more performant, and privacy-conscious Streamlit applications with client-side ML.
+[![CI](https://github.com/josephedward/streamlit-secure-context/actions/workflows/ci.yml/badge.svg)](https://github.com/josephedward/streamlit-secure-context/actions)
 # streamlit-secure-context
 
 This repository provides a secure machine learning inference component for Streamlit, leveraging modern browser security features (HTTPS enforcement, Cross-Origin Isolation, and CSP) and a worker-based inference pipeline inside a sandboxed iframe.

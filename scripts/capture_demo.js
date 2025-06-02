@@ -16,10 +16,20 @@
  *   - scripts/demo_screenshot.png
  */
 const puppeteer = require('puppeteer');
+const fs = require('fs');
+const path = require('path');
 
 (async () => {
-  const url = 'http://localhost:8501';
-  const screenshotPath = 'scripts/demo_screenshot.png';
+  // Allow overriding URL and output path via CLI args:
+  //   node scripts/capture_demo.js [url] [output_path]
+  const [, , urlArg, outputArg] = process.argv;
+  const url = urlArg || 'http://localhost:8501';
+  const screenshotPath = outputArg || 'screenshots/demo_screenshot.png';
+  // Ensure output directory exists
+  const outDir = path.dirname(screenshotPath);
+  if (!fs.existsSync(outDir)) {
+    fs.mkdirSync(outDir, { recursive: true });
+  }
   try {
     console.log(`Launching headless browser to capture screenshot of ${url}`);
     const browser = await puppeteer.launch();
@@ -36,18 +46,4 @@ const puppeteer = require('puppeteer');
     console.error('Error capturing screenshot:', err);
     process.exit(1);
   }
-})();const puppeteer = require('puppeteer');
-
-(async () => {
-  // Launch headless Chromium
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  // Navigate to the running demo
-  await page.goto('http://localhost:8501', { waitUntil: 'networkidle2' });
-  // Capture full-page screenshot
-  await page.screenshot({
-    path: 'scripts/demo_screenshot.png',
-    fullPage: true,
-  });
-  await browser.close();
 })();

@@ -46,6 +46,20 @@
    });
    // Notify parent that iframe and worker proxy are ready
    parent.postMessage({ type: 'IFRAME_READY' }, '*');
+  
+  // CSP/SecurityPolicy violation logging: forward violation details to parent and console
+  document.addEventListener('securitypolicyviolation', function (e) {
+    const violation = {
+      violatedDirective: e.violatedDirective,
+      effectiveDirective: e.effectiveDirective,
+      blockedURI: e.blockedURI,
+      originalPolicy: e.originalPolicy,
+      sourceFile: e.sourceFile,
+      statusCode: e.statusCode,
+    };
+    console.warn('CSP Violation in iframe:', violation);
+    parent.postMessage({ type: 'GUARDIAN_LOG', detail: violation }, '*');
+  });
  </script>
  </body>
  </html>

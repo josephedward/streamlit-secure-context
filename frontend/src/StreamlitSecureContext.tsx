@@ -173,6 +173,9 @@ class StreamlitSecureContext extends StreamlitComponentBase {
     } else if (data.type === "ERROR") {
       // Forward worker error to Python side
       Streamlit.setComponentValue({ error: data.error });
+    } else if (data.type === "GUARDIAN_LOG") {
+      // Log CSP or security policy violations from the iframe
+      console.warn('Guardian log from iframe:', data.detail);
     }
   }
 

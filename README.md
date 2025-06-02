@@ -121,6 +121,7 @@ Automates building the frontend and installing the Python package.
 - Embeds the secure-context component in the page, enforcing COOP, COEP, and CSP headers.
 - Spins up a sandboxed iframe and injects a Web Worker for off-main-thread ML inference.
 - On clicking 'Run Inference', loads the model, runs inference on your inputs, and returns the result to the Streamlit app for display.
+- Logs any security policy violations (CSP/COEP/COOP) to the browser console in real time.
 
 Follow these steps for an end-to-end demonstration of the secure ML inference pipeline:
 
@@ -144,6 +145,13 @@ Follow these steps for an end-to-end demonstration of the secure ML inference pi
    ```bash
    streamlit run examples/basic_demo.py
    ```
+5. (Optional) Capture a screenshot automatically:
+   ```bash
+   # From the project root, in a separate terminal
+   npm install puppeteer
+   node scripts/capture_demo.js
+   ```
+   The screenshot will be saved as `scripts/demo_screenshot.png`.
 
 ## Under the Hood
 

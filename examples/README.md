@@ -42,13 +42,28 @@ streamlit run examples/simple_demo.py
 ```
 This demo uses a fixed Iris TFJS model and hard-coded inputs to demonstrate secure ML inference with no extra UI.
 
-### Capturing a Screenshot
-After starting the demo in one terminal, from the project root run:
-```bash
-# Install Puppeteer if you haven't already:
-npm install puppeteer
+Since we can’t bundle a real browser screenshot here, you can generate one yourself in two minutes:
 
-# Capture the running simple demo:
-node scripts/capture_demo.js http://localhost:8501 screenshots/simple_demo_screenshot.png
+1. Start the simple demo  
+   ```bash
+   streamlit run examples/simple_demo.py
+   ```
+2. In a second terminal, install Puppeteer and capture the screenshot  
+   ```bash
+   npm install puppeteer
+   node scripts/capture_demo.js http://localhost:8501 screenshots/simple_demo_screenshot.png
+   ```
+   The script will auto-create the `screenshots/` folder if needed.
+
+3. Open `screenshots/simple_demo_screenshot.png` to see the result:  
+   ![Simple Demo Screenshot](screenshots/simple_demo_screenshot.png)
+
+If you prefer Playwright instead of Puppeteer:
+
+```bash
+pip install playwright
+playwright install chromium
+python scripts/capture_demo_screenshots.py
 ```
-The screenshot will be saved to `screenshots/simple_demo_screenshot.png`.
+
+Either approach will give you a PNG of the simple demo for your docs or slides.
